@@ -1,15 +1,15 @@
 import Blockchain from 'vanillachain-core';
-import dotenv from 'dotenv';
 
-dotenv.config();
-const { DIFFICULTY, INSTANCE, SECRET } = process.env;
+import { C } from '../common';
+
+const { BLOCKCHAIN } = C;
 
 export default ({ props }, res) => {
-  const blockchain = new Blockchain({
-    difficulty: DIFFICULTY, file: INSTANCE, secret: SECRET,
-  });
-  const { hash: previousHash } = blockchain.latestBlock;
-  const { hash } = blockchain.addBlock(props, previousHash);
+  const blockchain = new Blockchain(BLOCKCHAIN);
 
-  res.json({ hash });
+  const { hash } = blockchain.addBlock(props, blockchain.latestBlock.hash);
+
+  res.json({
+    hash,
+  });
 };

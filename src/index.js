@@ -10,7 +10,7 @@ import {
   error, props, request, response,
 } from './middlewares';
 import {
-  signup, signin, status, transaction, vault,
+  signup, signin, vault, transaction, transactions, status,
 } from './services';
 import PKG from '../package.json';
 
@@ -36,6 +36,7 @@ app.get('/', props, status);
 app.post('/signup', props, signup);
 app.post('/signin', props, signin);
 app.post('/transaction', props, transaction);
+app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
 app.use(response);
 

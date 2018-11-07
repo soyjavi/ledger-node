@@ -4,28 +4,31 @@ import Blockchain from 'vanillachain-core';
 import { cache, C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { ENV: { BLOCKCHAIN, SECRET } } = C;
+const { BLOCKCHAIN, BLOCKCHAIN_VAULTS, BLOCKCHAIN_TXS } = C;
 
 export default (req, res, next) => {
+  const { originalUrl } = req;
   const timestamp = new Date().getTime();
 
-  const route = MAP[req.originalUrl.split('/')[1].split('?')[0]]; // eslint-disable-line
+  const route = MAP[originalUrl.split('/')[1].split('?')[0]]; // eslint-disable-line
   req.routeMap = route;
 
   if (route && route.secure) {
     const { headers: { authorization } } = req;
     if (!authorization) return ERROR.FORBIDDEN(res);
 
-    const { blocks } = new Blockchain(BLOCKCHAIN);
-    const block = blocks.find(({ hash }) => hash === authorization);
-    if (!block) return ERROR.FORBIDDEN(res);
+    const { blocks: sessions } = new Blockchain(BLOCKCHAIN);
+    if (!sessions.find(({ hash }) => hash === authorization)) return ERROR.FORBIDDEN(res);
 
     let session = cache.get(authorization);
     if (!session) {
-      const blockchain = new Blockchain({ file: authorization, secret: SECRET, keyChain: 'vaults' });
+      const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN_VAULTS, file: authorization });
+      const { blocks: [, lastTX] } = new Blockchain({ ...BLOCKCHAIN_TXS, file: authorization });
+
       session = {
         hash: authorization,
-        vaults: blockchain.blocks.map(({ data }) => data),
+        vaults: vaults.map(({ hash }) => hash),
+        tx: lastTX,
       };
       cache.set(authorization, session, 120);
     }

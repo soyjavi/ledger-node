@@ -1,13 +1,20 @@
 import Blockchain from 'vanillachain-core';
 
-export default ({ props }, res) => {
+import { C, ERROR } from '../common';
+
+const { BLOCKCHAIN_TXS } = C;
+
+export default ({ props, session }, res) => {
   const { previousHash, ...data } = props;
-  const blockchain = new Blockchain({ file: 'voltvault' });
 
-  const block = blockchain.addBlock(data, previousHash);
+  if (!session.vaults.includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
-  res.json({
-    ...props,
-    block,
+  const txs = new Blockchain({ ...BLOCKCHAIN_TXS, file: session.hash });
+  const tx = txs.addBlock(data, txs.latestBlock.hash);
+
+  return res.json({
+    hash: tx.hash,
+    timestamp: tx.hash,
+    ...tx.data,
   });
 };

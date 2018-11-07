@@ -10,11 +10,9 @@
     "required": ["title", "caption", "balance", "currency"],
     "secure": true
   },
-  "vaults": {
-    "secure": true
-  },
   "transaction": {
-    "required": ["vault", "value", "title", "date", "previousHash"],
+    "required": ["vault", "value", "title", "previousHash", "type"],
+    "optional": ["timestamp", "tags"],
     "secure": true
   },
   "transactions": {
