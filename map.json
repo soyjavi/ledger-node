@@ -1,0 +1,27 @@
+{
+  "signup": {
+    "required": ["fingerprint", "pin"]
+  },
+  "signin": {
+    "required": ["fingerprint", "pin"]
+  },
+
+  "vault": {
+    "required": ["title", "caption", "balance", "currency"],
+    "secure": true
+  },
+  "vaults": {
+    "secure": true
+  },
+  "transaction": {
+    "required": ["vault", "value", "title", "date", "previousHash"],
+    "secure": true
+  },
+  "transactions": {
+    "secure": true
+  },
+  "profile": {
+    "cache": 120,
+    "secure": true
+  }
+}

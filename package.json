@@ -1,0 +1,36 @@
+{
+  "name": "voltvault",
+  "description": "A new expanded and private finance experience.",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "compression": "1.7.3",
+    "cors": "2.8.5",
+    "dotenv": "6.1.0",
+    "express": "4.16.4",
+    "on-finished": "2.3.0",
+    "pretty-error": "2.1.1",
+    "vanillachain-core": "^0.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "eslint": "5.8.0",
+    "eslint-config-airbnb": "latest",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "23.6.0",
+    "nodemon": "1.18.6"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production babel-node src/index.js",
+    "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js",
+    "test": "jest",
+    "lint": "eslint src/**"
+  }
+}
