@@ -10,16 +10,16 @@
     "express": "4.16.4",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
-    "vanillachain-core": "^0.1.6"
+    "vanillachain-core": "0.1.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.5",
-    "@babel/node": "^7.0.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "7.1.5",
+    "@babel/node": "7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "7.0.0",
+    "@babel/preset-env": "7.1.5",
     "eslint": "5.8.0",
     "eslint-config-airbnb": "latest",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "2.14.0",
     "jest": "23.6.0",
     "nodemon": "1.18.6"
   },
