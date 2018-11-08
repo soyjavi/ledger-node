@@ -6,6 +6,9 @@
     "required": ["fingerprint", "pin"]
   },
 
+  "profile": {
+    "secure": true
+  },
   "vault": {
     "required": ["title", "caption", "balance", "currency"],
     "secure": true
