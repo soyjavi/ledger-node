@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-const { DIFFICULTY, INSTANCE, SECRET } = process.env;
+const {
+  DIFFICULTY, INSTANCE, SECRET,
+} = process.env;
 const BLOCKCHAIN = { difficulty: DIFFICULTY, secret: SECRET };
 
 export default {
@@ -17,7 +19,7 @@ export default {
   TX: {
     TYPE: {
       EXPENSE: 'expense',
-      INCOME: 'iconme',
+      INCOME: 'income',
       TRANSFER: 'transfer',
     },
   },

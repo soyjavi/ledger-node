@@ -10,7 +10,7 @@ export default ({ session }, res) => {
 
   return res.json({
     vaults: vaults.map(({ data, hash }) => ({ hash, ...data })),
-    latestTransacion: {
+    latestTransaction: {
       hash: latestBlock.hash,
       timestamp: latestBlock.timestamp,
     },
