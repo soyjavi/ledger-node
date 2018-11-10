@@ -1,21 +1,22 @@
 {
+  "status": {},
+
   "signup": {
     "required": ["fingerprint", "pin"]
   },
   "signin": {
     "required": ["fingerprint", "pin"]
   },
-
   "profile": {
     "secure": true
   },
   "vault": {
-    "required": ["title", "caption", "balance", "currency"],
+    "required": ["title", "balance", "currency"],
     "secure": true
   },
   "transaction": {
-    "required": ["vault", "value", "title", "previousHash", "type"],
-    "optional": ["timestamp", "tags"],
+    "required": ["vault", "type", "amount", "title", "previousHash"],
+    "optional": ["timestamp", "location"],
     "secure": true
   },
   "transactions": {

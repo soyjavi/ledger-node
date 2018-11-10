@@ -11,9 +11,10 @@ export default (req, res, next) => {
   const timestamp = new Date().getTime();
 
   const route = MAP[originalUrl.split('/')[1].split('?')[0]]; // eslint-disable-line
-  req.routeMap = route;
+  if (!route) return ERROR.UNKNOWN_SERVICE(res);
 
-  if (route && route.secure) {
+  req.routeMap = route;
+  if (route.secure) {
     const { headers: { authorization } } = req;
     if (!authorization) return ERROR.FORBIDDEN(res);
 

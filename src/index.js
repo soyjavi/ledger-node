@@ -32,7 +32,7 @@ global.connections = {};
 
 // -- Middlewares
 app.use(request);
-app.get('/', props, status);
+app.get('/status', props, status);
 app.post('/signup', props, signup);
 app.post('/signin', props, signin);
 app.get('/profile', props, profile);
