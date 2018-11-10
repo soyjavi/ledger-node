@@ -1,6 +1,4 @@
 {
-  "status": {},
-
   "signup": {
     "required": ["fingerprint", "pin"]
   },
@@ -15,15 +13,17 @@
     "secure": true
   },
   "transaction": {
-    "required": ["vault", "type", "amount", "title", "previousHash"],
+    "required": ["vault", "type", "value", "title", "previousHash"],
     "optional": ["timestamp", "location"],
     "secure": true
   },
   "transactions": {
+    "optional": ["year", "month"],
     "secure": true
   },
   "profile": {
     "cache": 120,
     "secure": true
-  }
+  },
+  "status": {}
 }
