@@ -11,7 +11,12 @@ export default ({ props, session }, res) => {
   if (!session.vaults.includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
   const txs = new Blockchain({ ...BLOCKCHAIN_TXS, file: session.hash, key: year });
-  const tx = txs.addBlock({ ...data, value: parseFloat(data.value, 10) }, previousHash);
+  const tx = txs.addBlock({
+    ...data,
+    category: parseInt(data.category, 10),
+    type: parseInt(data.type, 10),
+    value: parseFloat(data.value, 10),
+  }, previousHash);
 
   return res.json({
     hash: tx.hash,
