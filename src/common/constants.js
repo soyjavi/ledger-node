@@ -7,6 +7,8 @@ const {
 const BLOCKCHAIN = { difficulty: parseInt(DIFFICULTY, 10), secret: SECRET };
 
 export default {
+  CURRENCY: 'USD',
+
   ENV: {
     DEVELOPMENT: true,
     PRODUCTION: false,
