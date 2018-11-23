@@ -14,17 +14,21 @@ export default ({ props, session }, res) => {
 
   const txs = new Blockchain({ ...BLOCKCHAIN_TXS, file: session.hash, key: year });
 
-  const tx = txs.addBlock({
-    ...data,
-    title: title && title.trim().length > 0 ? title : undefined,
-    category: parseInt(category, 10),
-    type: parseInt(type, 10),
-    value: parseFloat(value, 10),
-  }, previousHash);
+  try {
+    const tx = txs.addBlock({
+      ...data,
+      title: title && title.trim().length > 0 ? title : undefined,
+      category: parseInt(category, 10),
+      type: parseInt(type, 10),
+      value: parseFloat(value, 10),
+    }, previousHash);
 
-  return res.json({
-    hash: tx.hash,
-    timestamp: tx.data.timestamp || tx.timestamp,
-    ...tx.data,
-  });
+    return res.json({
+      hash: tx.hash,
+      timestamp: tx.data.timestamp || tx.timestamp,
+      ...tx.data,
+    });
+  } catch (error) {
+    return ERROR.MESSAGE(res, error);
+  }
 };
