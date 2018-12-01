@@ -1,7 +1,7 @@
 import Blockchain from 'vanillachain-core';
 
 import { C } from '../common';
-import rates from './modules/rates';
+import { cryptos, rates } from './modules';
 
 const { BLOCKCHAIN_VAULTS, BLOCKCHAIN_TXS, CURRENCY } = C;
 
@@ -19,7 +19,10 @@ export default async ({ session }, res) => {
       hash: latestBlock.hash,
       timestamp: latestBlock.timestamp,
     },
-    rates: await rates(baseCurrency),
+    rates: {
+      ...(await rates(baseCurrency)),
+      BTC: (await cryptos('BTC'))[baseCurrency],
+    },
     vaults: vaults.map(({ data, hash }) => ({ hash, ...data })),
   });
 };
