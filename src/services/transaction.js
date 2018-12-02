@@ -2,7 +2,7 @@ import Blockchain from 'vanillachain-core';
 
 import { C, ERROR } from '../common';
 
-const { BLOCKCHAIN_TXS } = C;
+const { BLOCKCHAIN } = C;
 
 export default ({ props, session }, res) => {
   const {
@@ -12,7 +12,7 @@ export default ({ props, session }, res) => {
 
   if (!session.vaults.includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
-  const txs = new Blockchain({ ...BLOCKCHAIN_TXS, file: session.hash, key: year });
+  const txs = new Blockchain({ ...BLOCKCHAIN, file: session.hash, key: year });
 
   try {
     const tx = txs.addBlock({
