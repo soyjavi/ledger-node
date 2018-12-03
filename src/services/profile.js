@@ -21,7 +21,7 @@ export default async ({ session }, res) => {
     },
     rates: {
       ...(await rates(baseCurrency)),
-      BTC: (await cryptos('BTC'))[baseCurrency],
+      BTC: 1 / (await cryptos('BTC'))[baseCurrency],
     },
     vaults: vaults.map(({ data, hash }) => ({ hash, ...data })),
   });

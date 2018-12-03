@@ -13,7 +13,7 @@
     "secure": true
   },
   "transaction": {
-    "required": ["vault", "type", "category", "value", "previousHash"],
+    "required": ["category", "vault", "type", "value", "previousHash"],
     "optional": ["title", "timestamp", "location"],
     "secure": true
   },
