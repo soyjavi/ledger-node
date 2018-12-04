@@ -4,11 +4,13 @@ import Blockchain from 'vanillachain-core';
 import { cache, C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { BLOCKCHAIN, BLOCKCHAIN_VAULTS, BLOCKCHAIN_TXS } = C;
+const { BLOCKCHAIN } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
-  const timestamp = new Date().getTime();
+  const today = new Date();
+  const timestamp = today.getTime();
+  const year = today.getFullYear().toString();
 
   const route = MAP[originalUrl.split('/')[1].split('?')[0]]; // eslint-disable-line
   if (!route) return ERROR.UNKNOWN_SERVICE(res);
@@ -23,8 +25,8 @@ export default (req, res, next) => {
 
     let session = cache.get(authorization);
     if (!session) {
-      const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN_VAULTS, file: authorization });
-      const { blocks: [, lastTX] } = new Blockchain({ ...BLOCKCHAIN_TXS, file: authorization });
+      const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: 'vaults' });
+      const { blocks: [, lastTX] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: year });
 
       session = {
         hash: authorization,

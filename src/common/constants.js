@@ -4,7 +4,6 @@ dotenv.config();
 const {
   DIFFICULTY, INSTANCE, SECRET,
 } = process.env;
-const BLOCKCHAIN = { difficulty: parseInt(DIFFICULTY, 10), secret: SECRET };
 
 export default {
   CURRENCY: 'USD',
@@ -50,8 +49,9 @@ export default {
     PRODUCTION: false,
   },
 
-  BLOCKCHAIN: { ...BLOCKCHAIN, file: INSTANCE, key: 'sessions' },
-  BLOCKCHAIN_VAULTS: { ...BLOCKCHAIN, key: 'vaults' },
+  BLOCKCHAIN: { 
+    difficulty: parseInt(DIFFICULTY, 10), secret: SECRET, file: INSTANCE, key: 'sessions', 
+  },
 
   TX: {
     TYPE: {
