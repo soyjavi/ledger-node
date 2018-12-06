@@ -18,7 +18,7 @@
     "secure": true
   },
   "transactions": {
-    "optional": ["year", "month"],
+    "optional": ["latestTransaction", "year", "month"],
     "secure": true
   },
   "profile": {
