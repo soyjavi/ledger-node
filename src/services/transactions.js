@@ -10,7 +10,7 @@ export default ({ props, session }, res) => {
     year = new Date().getFullYear().toString(),
   } = props;
 
-  let { blocks: [, ...txs] } = new Blockchain({
+  let { blocks: txs } = new Blockchain({
     ...BLOCKCHAIN, file: session.hash, key: year, readMode: true,
   });
 
