@@ -62,4 +62,6 @@ typings/
 
 # project dynamic folders
 store/*.json
+dist/**/*.js
+dist/**/*.js.map
 
