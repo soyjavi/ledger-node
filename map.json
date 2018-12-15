@@ -6,6 +6,7 @@
     "required": ["fingerprint", "pin"]
   },
   "profile": {
+    "cache": 120,
     "secure": true
   },
   "vault": {
@@ -21,8 +22,14 @@
     "optional": ["latestTransaction", "year", "month"],
     "secure": true
   },
-  "profile": {
+  "place": {
     "cache": 120,
+    "required": ["latitude", "longitude"],
+    "secure": true
+  },
+  "staticmap": {
+    "required": ["latitude", "longitude"],
+    "optional": ["resolution", "zoom"],
     "secure": true
   },
   "status": {}

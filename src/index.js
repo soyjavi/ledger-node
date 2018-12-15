@@ -7,10 +7,10 @@ import dotenv from 'dotenv';
 import prettyError from 'pretty-error';
 
 import {
-  error, props, request, response,
+  cache, error, props, request, response,
 } from './middlewares';
 import {
-  signup, signin, profile, vault, transaction, transactions, status,
+  signup, signin, profile, vault, transaction, transactions, mapImage, mapPlace, status,
 } from './services';
 import PKG from '../package.json';
 
@@ -39,6 +39,8 @@ app.get('/profile', props, profile);
 app.post('/transaction', props, transaction);
 app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
+app.get('/staticmap', props, mapImage);
+app.get('/place', cache, props, mapPlace);
 app.use(response);
 
 // -- Global Error Handler
