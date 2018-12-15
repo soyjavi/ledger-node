@@ -29,8 +29,7 @@
   },
   "staticmap": {
     "required": ["latitude", "longitude"],
-    "optional": ["resolution", "zoom"],
-    "secure": true
+    "optional": ["resolution", "zoom"]
   },
   "status": {}
 }
