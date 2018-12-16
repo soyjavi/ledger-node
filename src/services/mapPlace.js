@@ -7,7 +7,7 @@ const MAPBOX_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 const PARAMETERS = 'language=en&limit=1&types=place';
 
 export default async ({ props: { latitude, longitude } }, res, next) => {
-  const url = `${MAPBOX_URL}/${latitude},${longitude}.json?${PARAMETERS}&access_token=${MAPBOX_ACCESS_TOKEN}`;
+  const url = `${MAPBOX_URL}/${longitude},${latitude}.json?${PARAMETERS}&access_token=${MAPBOX_ACCESS_TOKEN}`;
   const response = await fetch(url);
   let place;
 

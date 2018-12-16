@@ -13,7 +13,7 @@ export default async ({ props }, res) => {
 
   https.request({
     host: HOST,
-    path: `${PATH}/${latitude},${longitude},${zoom},0,0/${resolution}?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    path: `${PATH}/${longitude},${latitude},${zoom},0,0/${resolution}?access_token=${MAPBOX_ACCESS_TOKEN}`,
   }, (response) => {
     if (response.statusCode === 200) {
       res.writeHead(200, {
