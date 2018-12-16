@@ -15,7 +15,7 @@
   },
   "transaction": {
     "required": ["category", "vault", "type", "value", "previousHash"],
-    "optional": ["title", "timestamp", "location"],
+    "optional": ["title", "timestamp", "place", "latitude", "longitude"],
     "secure": true
   },
   "transactions": {
@@ -24,8 +24,7 @@
   },
   "place": {
     "cache": 120,
-    "required": ["latitude", "longitude"],
-    "secure": true
+    "required": ["latitude", "longitude"]
   },
   "staticmap": {
     "required": ["latitude", "longitude"],

@@ -6,7 +6,7 @@ const { BLOCKCHAIN } = C;
 
 export default ({ props, session }, res) => {
   const {
-    category, previousHash, title, type, value, ...data
+    category, latitude, longitude, place, previousHash, title, type, value, ...data
   } = props;
   const year = new Date().getFullYear().toString();
 
@@ -19,6 +19,9 @@ export default ({ props, session }, res) => {
       ...data,
       title: title && title.trim().length > 0 ? title : undefined,
       category: parseInt(category, 10),
+      location: latitude && longitude
+        ? { latitude: parseFloat(latitude, 10), longitude: parseFloat(longitude, 10), place }
+        : undefined,
       type: parseInt(type, 10),
       value: parseFloat(value, 10),
     }, previousHash);
