@@ -6,6 +6,10 @@ const {
 } = process.env;
 
 export default {
+  BLOCKCHAIN: {
+    difficulty: parseInt(DIFFICULTY, 10), secret: SECRET, file: INSTANCE, key: 'sessions',
+  },
+
   CURRENCY: 'USD',
 
   CURRENCIES: [
@@ -49,9 +53,7 @@ export default {
     PRODUCTION: false,
   },
 
-  BLOCKCHAIN: { 
-    difficulty: parseInt(DIFFICULTY, 10), secret: SECRET, file: INSTANCE, key: 'sessions', 
-  },
+  KEY: '2018', // new Date().getFullYear().toString()
 
   TX: {
     TYPE: {

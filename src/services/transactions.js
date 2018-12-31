@@ -2,16 +2,16 @@ import Blockchain from 'vanillachain-core';
 
 import { C, ERROR } from '../common';
 
-const { BLOCKCHAIN } = C;
+const { BLOCKCHAIN, KEY } = C;
 
 export default ({ props, session }, res) => {
   const {
     latestTransaction,
-    year = new Date().getFullYear().toString(),
+    year = new Date().getFullYear().toString(),  // eslint-disable-line
   } = props;
 
   let { blocks: txs } = new Blockchain({
-    ...BLOCKCHAIN, file: session.hash, key: year, readMode: true,
+    ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
   });
 
   if (latestTransaction) {

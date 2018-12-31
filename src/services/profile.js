@@ -3,15 +3,13 @@ import Blockchain from 'vanillachain-core';
 import { C } from '../common';
 import { cryptos, rates } from './modules';
 
-const { BLOCKCHAIN, CURRENCY } = C;
+const { BLOCKCHAIN, CURRENCY, KEY } = C;
 
 export default async ({ session }, res) => {
-  const year = new Date().getFullYear().toString();
-
   const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, file: session.hash, key: 'vaults' });
   const baseCurrency = vaults[0] ? vaults[0].data.currency : CURRENCY;
 
-  const { latestBlock } = new Blockchain({ ...BLOCKCHAIN, file: session.hash, key: year });
+  const { latestBlock } = new Blockchain({ ...BLOCKCHAIN, file: session.hash, key: KEY });
 
   return res.json({
     baseCurrency,
