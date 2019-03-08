@@ -22,6 +22,10 @@ export default ({ props, session }, res) => {
   }
 
   return res.json({
-    txs: txs.map(({ hash, timestamp, data }) => ({ hash, timestamp: data.timestamp || timestamp, ...data })),
+    txs: txs
+      .filter(data => Object.keys(data).length > 0)
+      .map(({ hash, timestamp, data = {} }) => typeof data === 'string' // eslint-disable-line
+        ? ({ hash, timestamp, data: { title: data } })
+        : ({ hash, timestamp: data.timestamp || timestamp, ...data })),
   });
 };
