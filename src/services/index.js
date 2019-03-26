@@ -5,6 +5,7 @@ import profile from './profile';
 import vault from './vault';
 import transaction from './transaction';
 import transactions from './transactions';
+import fork from './fork';
 import mapImage from './mapImage';
 import mapPlace from './mapPlace';
 import status from './status';
@@ -16,6 +17,7 @@ export {
   vault,
   transaction,
   transactions,
+  fork,
   mapImage,
   mapPlace,
   status,
