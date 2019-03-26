@@ -10,7 +10,7 @@ import {
   cache, error, props, request, response,
 } from './middlewares';
 import {
-  signup, signin, profile, vault, transaction, transactions, mapImage, mapPlace, status,
+  signup, signin, profile, vault, transaction, transactions, fork, mapImage, mapPlace, status,
 } from './services';
 import PKG from '../package.json';
 
@@ -41,6 +41,7 @@ app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
 app.get('/staticmap', props, mapImage);
 app.get('/place', cache, props, mapPlace);
+app.get('/fork', props, fork);
 app.use(response);
 
 // -- Global Error Handler
