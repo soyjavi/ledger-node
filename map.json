@@ -32,7 +32,7 @@
   },
   "locations": {
     "required": [],
-    "optional": ["from", "to"],
+    "optional": ["year", "month"],
     "secure": true
   },
   "status": {}

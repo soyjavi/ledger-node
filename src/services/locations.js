@@ -4,14 +4,26 @@ import { C } from '../common';
 
 const { BLOCKCHAIN, KEY } = C;
 
-export default ({ session }, res) => {
+export default ({ props, session }, res) => {
+  let { year, month } = props;
   const cities = {};
   const regions = {};
   const countries = {};
 
-  const { blocks: txs } = new Blockchain({
+  let { blocks: txs } = new Blockchain({
     ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
   });
+
+  if (year || month) {
+    year = parseInt(year, 10);
+    month = parseInt(month, 10);
+
+    txs = txs.filter(({ timestamp }) => {
+      const date = new Date(timestamp);
+      return (year && !month && date.getFullYear() === year)
+        || (date.getFullYear() === year && date.getMonth() === month);
+    });
+  }
 
   txs.forEach(({ data: { location: { place } = {} } = {} }) => {
     if (place) {
