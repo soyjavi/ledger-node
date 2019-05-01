@@ -8,6 +8,7 @@ import transactions from './transactions';
 import fork from './fork';
 import mapImage from './mapImage';
 import mapPlace from './mapPlace';
+import locations from './locations';
 import status from './status';
 
 export {
@@ -20,5 +21,6 @@ export {
   fork,
   mapImage,
   mapPlace,
+  locations,
   status,
 };
