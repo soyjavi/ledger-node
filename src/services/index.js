@@ -7,6 +7,7 @@ import transaction from './transaction';
 import transactions from './transactions';
 import mapImage from './mapImage';
 import mapPlace from './mapPlace';
+import locations from './locations';
 import status from './status';
 
 export {
@@ -18,5 +19,6 @@ export {
   transactions,
   mapImage,
   mapPlace,
+  locations,
   status,
 };

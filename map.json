@@ -30,5 +30,10 @@
     "required": ["latitude", "longitude"],
     "optional": ["resolution", "zoom"]
   },
+  "locations": {
+    "required": [],
+    "optional": ["year", "month"],
+    "secure": true
+  },
   "status": {}
 }
