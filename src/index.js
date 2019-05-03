@@ -41,7 +41,7 @@ app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
 app.get('/staticmap', props, mapImage);
 app.get('/place', cache, props, mapPlace);
-app.get('/locations', cache, props, locations);
+app.get('/locations', props, locations);
 app.get('/fork', props, fork);
 app.use(response);
 
