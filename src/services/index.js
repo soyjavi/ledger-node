@@ -9,6 +9,7 @@ import fork from './fork';
 import mapImage from './mapImage';
 import mapPlace from './mapPlace';
 import locations from './locations';
+import backup from './backup';
 import status from './status';
 
 export {
@@ -22,5 +23,6 @@ export {
   mapImage,
   mapPlace,
   locations,
+  backup,
   status,
 };
