@@ -36,8 +36,11 @@
   },
   "locations": {
     "required": [],
-    "optional": ["year", "month"],
+    "optional": ["year", "month", "week"],
     "secure": true
+  },
+  "backup": {
+    "required": ["key"]
   },
   "status": {}
 }
