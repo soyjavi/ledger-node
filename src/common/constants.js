@@ -55,6 +55,12 @@ export default {
 
   KEY: '2018', // new Date().getFullYear().toString()
 
+  MAPBOX: {
+    HOST: 'api.mapbox.com',
+    PATH: 'styles/v1/mapbox/light-v9/static',
+    PROPS: 'attribution=false&logo=false',
+  },
+
   TX: {
     TYPE: {
       EXPENSE: 'expense',

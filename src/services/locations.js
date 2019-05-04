@@ -6,18 +6,18 @@ import { C } from '../common';
 
 dotenv.config();
 const { MAPBOX_ACCESS_TOKEN } = process.env;
-const { BLOCKCHAIN, KEY } = C;
-const HOST = 'api.mapbox.com';
-const PATH = 'v4/mapbox.light';
+const { BLOCKCHAIN, KEY, MAPBOX } = C;
+const HEATMAP_COLORS = ['#FFD700', '#FFA500', '#FF4500'];
 
 export default async ({ props, session }, res) => {
   const cities = {};
   const countries = {};
   const points = {};
+  const heatmaps = { low: [], regular: [], high: [] };
   let { blocks: txs } = new Blockchain({
     ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
   });
-  let { year, month, week } = props;
+  let { year, month } = props;
 
   // -- Filter
   if (year || month) {
@@ -41,8 +41,11 @@ export default async ({ props, session }, res) => {
     }
   });
 
-  //-- Process Map
-  const precission = Object.keys(countries).length > 1 ? 0 : 2;
+  // -- Heat Map
+  let precission = 3;
+  if (Object.keys(countries).length > 1) precission = 0;
+  else if (Object.keys(cities).length > 1) precission = 1;
+
   txs.forEach(({ data: { location: { latitude, longitude } = {} } = {} }) => {
     if (latitude && longitude) {
       const point = `${longitude.toFixed(precission)},${latitude.toFixed(precission)}`;
@@ -50,16 +53,37 @@ export default async ({ props, session }, res) => {
     }
   });
 
-  let pins = '';
   Object.keys(points).forEach((location) => {
-    let content = `s-${points[location]}`;
-    if (points[location] > 99) content = 'l-star';
-    // else if (points[location] === 1) content = 'm-circle';
+    let gap = 0.001;
+    if (precission === 1) gap = 0.1;
+    else if (precission === 0) gap = 1;
 
-    pins += `${pins !== '' ? ',' : ''}pin-${content}+7966FF(${location})`;
+    let [lon, lat] = location.split(',');
+    lon = parseFloat(lon, 10);
+    lat = parseFloat(lat, 10);
+    // lon = parseFloat(lon, 10) - (gap / 2);
+    // lat = parseFloat(lat, 10) - (gap / 2);
+
+    const box = [[lon, lat], [lon + gap, lat], [lon + gap, lat + gap], [lon, lat + gap], [lon, lat]];
+
+    if (points[location] === 1) heatmaps.low.push(box);
+    else if (points[location] <= 10) heatmaps.regular.push(box);
+    else heatmaps.high.push(box);
   });
 
-  const path = `https:/${HOST}/${PATH}/${pins}/auto/480x256@2x.png?access_token=${MAPBOX_ACCESS_TOKEN}`;
+  const geoJSON = { type: 'FeatureCollection', features: [] };
+  Object.keys(heatmaps).forEach((level, index) => {
+    if (heatmaps[level].length > 0) {
+      geoJSON.features.push({
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: heatmaps[level] },
+        properties: { 'stroke-width': 0, fill: HEATMAP_COLORS[index], 'fill-opacity': 0.75 },
+      });
+    }
+  });
+
+  const geoJSONUri = encodeURIComponent(JSON.stringify(geoJSON));
+  const map = `https://${MAPBOX.HOST}/${MAPBOX.PATH}/geojson(${geoJSONUri})/auto/512x256@2x?access_token=${MAPBOX_ACCESS_TOKEN}&${MAPBOX.PROPS}`;
 
   // https.request({
   //   host: HOST,
@@ -79,6 +103,7 @@ export default async ({ props, session }, res) => {
   return res.json({
     cities,
     countries,
-    map: path,
+    points,
+    map,
   });
 };
