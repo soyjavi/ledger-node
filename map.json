@@ -36,7 +36,7 @@
   },
   "locations": {
     "required": [],
-    "optional": ["year", "month", "week"],
+    "optional": ["center", "points", "precission", "resolution"],
     "secure": true
   },
   "backup": {

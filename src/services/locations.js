@@ -1,75 +1,36 @@
 import dotenv from 'dotenv';
 // import https from 'https';
-import Blockchain from 'vanillachain-core';
 
 import { C } from '../common';
 
 dotenv.config();
 const { MAPBOX_ACCESS_TOKEN } = process.env;
-const { BLOCKCHAIN, KEY, MAPBOX } = C;
+const { MAPBOX } = C;
 const HEATMAP_COLORS = ['#FFD700', '#FFA500', '#FF4500'];
 
-export default async ({ props, session }, res) => {
-  const cities = {};
-  const countries = {};
-  const points = {};
+export default async ({ props }, res) => {
+  const {
+    center = 'auto',
+    points,
+    precission = 0.001,
+    resolution = '512x256@2x',
+  } = props;
   const heatmaps = { low: [], regular: [], high: [] };
-  let { blocks: txs } = new Blockchain({
-    ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
-  });
-  let { year, month } = props;
+  const gap = parseFloat(precission, 10);
 
-  // -- Filter
-  if (year || month) {
-    year = parseInt(year, 10);
-    month = parseInt(month, 10) - 1;
+  (points ? JSON.parse(points) : []).forEach((point) => {
+    let [long, lat, value] = point;
 
-    txs = txs.filter(({ timestamp }) => {
-      const date = new Date(timestamp);
-      return (year && !month && date.getFullYear() === year)
-        || (date.getFullYear() === year && date.getMonth() === month);
-    });
-  }
-
-  // -- Get locations
-  txs.forEach(({ data: { location: { place } = {} } = {} }) => {
-    if (place) {
-      const [city, region, country] = place.split(',');
-
-      cities[city] = cities[city] ? cities[city] + 1 : 1;
-      countries[country] = countries[country] ? countries[country] + 1 : 1;
-    }
-  });
-
-  // -- Heat Map
-  let precission = 3;
-  if (Object.keys(countries).length > 1) precission = 0;
-  else if (Object.keys(cities).length > 1) precission = 1;
-
-  txs.forEach(({ data: { location: { latitude, longitude } = {} } = {} }) => {
-    if (latitude && longitude) {
-      const point = `${longitude.toFixed(precission)},${latitude.toFixed(precission)}`;
-      points[point] = points[point] ? points[point] + 1 : 1;
-    }
-  });
-
-  Object.keys(points).forEach((location) => {
-    let gap = 0.001;
-    if (precission === 1) gap = 0.1;
-    else if (precission === 0) gap = 1;
-
-    let [lon, lat] = location.split(',');
-    lon = parseFloat(lon, 10);
+    long = parseFloat(long, 10) - (gap / 2);
     lat = parseFloat(lat, 10);
-    // lon = parseFloat(lon, 10) - (gap / 2);
-    // lat = parseFloat(lat, 10) - (gap / 2);
 
-    const box = [[lon, lat], [lon + gap, lat], [lon + gap, lat + gap], [lon, lat + gap], [lon, lat]];
+    const box = [[long, lat], [long + gap, lat], [long + gap, lat + gap], [long, lat + gap], [long, lat]];
 
-    if (points[location] === 1) heatmaps.low.push(box);
-    else if (points[location] <= 10) heatmaps.regular.push(box);
+    if (value === 1) heatmaps.low.push(box);
+    else if (value <= 10) heatmaps.regular.push(box);
     else heatmaps.high.push(box);
   });
+
 
   const geoJSON = { type: 'FeatureCollection', features: [] };
   Object.keys(heatmaps).forEach((level, index) => {
@@ -83,10 +44,11 @@ export default async ({ props, session }, res) => {
   });
 
   const geoJSONUri = encodeURIComponent(JSON.stringify(geoJSON));
-  const map = `https://${MAPBOX.HOST}/${MAPBOX.PATH}/geojson(${geoJSONUri})/auto/512x256@2x?access_token=${MAPBOX_ACCESS_TOKEN}&${MAPBOX.PROPS}`;
+  const path = `/${MAPBOX.PATH}/geojson(${geoJSONUri})/${center}/${resolution}?access_token=${MAPBOX_ACCESS_TOKEN}&${MAPBOX.PROPS}`;
+  const map = `https://${MAPBOX.HOST}${path}`;
 
   // https.request({
-  //   host: HOST,
+  //   host: MAPBOX.HOST,
   //   path,
   // }, (response) => {
   //   if (response.statusCode === 200) {
@@ -100,10 +62,5 @@ export default async ({ props, session }, res) => {
   //   }
   // }).end();
 
-  return res.json({
-    cities,
-    countries,
-    points,
-    map,
-  });
+  return res.json({ map });
 };
