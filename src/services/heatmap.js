@@ -31,12 +31,15 @@ export default async ({ props }, res) => {
     const box = [[long, lat], [long + gap, lat], [long + gap, lat + gap], [long, lat + gap], [long, lat]];
 
     // Determine level
-    const percentage = Math.floor((amount * 100) / max);
-    let index;
-    if (percentage > 80) index = 3;
-    else if (percentage > 50) index = 2;
-    else if (percentage > 10) index = 1;
-    else index = 0;
+    let index = 1;
+    if (points.length > 1) {
+      const percentage = Math.floor((amount * 100) / max);
+
+      if (percentage > 80) index = 3;
+      else if (percentage > 50) index = 2;
+      else if (percentage > 10) index = 1;
+      else index = 0;
+    }
 
     heatmaps[index].push(box);
   });
