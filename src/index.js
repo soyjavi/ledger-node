@@ -17,9 +17,8 @@ import {
   transaction,
   transactions,
   fork,
-  mapImage,
+  heatmap,
   mapPlace,
-  locations,
   backup,
   status,
 } from './services';
@@ -50,9 +49,8 @@ app.get('/profile', props, profile);
 app.post('/transaction', props, transaction);
 app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
-app.get('/staticmap', props, mapImage);
 app.get('/place', cache, props, mapPlace);
-app.get('/locations', props, locations);
+app.get('/heatmap', props, heatmap);
 app.get('/fork', props, fork);
 // --- Admin tools
 app.get('/backup', props, backup);

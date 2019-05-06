@@ -30,17 +30,12 @@
     "cache": 120,
     "required": ["latitude", "longitude"]
   },
-  "staticmap": {
-    "required": ["latitude", "longitude"],
-    "optional": ["resolution", "zoom"]
-  },
-  "locations": {
-    "required": [],
-    "optional": ["center", "points", "precission", "resolution"],
-    "secure": true
-  },
   "backup": {
     "required": ["key"]
+  },
+  "heatmap": {
+    "required": ["points"],
+    "optional": ["center", "color", "precission", "resolution"]
   },
   "status": {}
 }
