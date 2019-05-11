@@ -35,7 +35,7 @@
   },
   "heatmap": {
     "required": ["points"],
-    "optional": ["center", "color", "precission", "resolution"]
+    "optional": ["center", "color", "precission", "resolution", "style"]
   },
   "status": {}
 }

@@ -7,6 +7,7 @@ dotenv.config();
 const { MAPBOX_ACCESS_TOKEN } = process.env;
 const { MAPBOX } = C;
 const HEATMAP_OPACITY = [0.2, 0.4, 0.6, 0.8];
+const DARK = 'dark';
 
 export default async ({ props }, res) => {
   const {
@@ -14,6 +15,7 @@ export default async ({ props }, res) => {
     color = '#FF4500',
     precission = 0.001,
     resolution = '512x256@2x',
+    style,
   } = props;
   const heatmaps = [[], [], [], []];
   const gap = parseFloat(precission, 10);
@@ -57,10 +59,11 @@ export default async ({ props }, res) => {
 
   const geoJSONUri = encodeURIComponent(JSON.stringify(geoJSON));
   const queryParams = `access_token=${MAPBOX_ACCESS_TOKEN}&${MAPBOX.PROPS}`;
+  const path = style === DARK ? MAPBOX.PATH_DARK : MAPBOX.PATH;
 
   https.request({
     host: MAPBOX.HOST,
-    path: `/${MAPBOX.PATH}/geojson(${geoJSONUri})/${center}/${resolution}?${queryParams}`,
+    path: `/${path}/geojson(${geoJSONUri})/${center}/${resolution}?${queryParams}`,
   }, (response) => {
     if (response.statusCode === 200) {
       res.writeHead(200, {

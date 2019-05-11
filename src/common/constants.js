@@ -58,6 +58,7 @@ export default {
   MAPBOX: {
     HOST: 'api.mapbox.com',
     PATH: 'styles/v1/mapbox/light-v9/static',
+    PATH_DARK: 'styles/v1/mapbox/dark-v9/static',
     PROPS: 'attribution=false&logo=false',
   },
 
