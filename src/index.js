@@ -5,7 +5,7 @@ import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 import prettyError from 'pretty-error';
-import { cryptos, currencies } from './modules';
+import { cacheCryptos, cacheCurrencies } from './common';
 
 import {
   cache, error, props, request, response,
@@ -65,8 +65,8 @@ const listener = server.listen(PORT, async () => {
   console.log(`☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`);
 
   // -- Build cache
-  await currencies();
-  await cryptos();
+  await cacheCurrencies();
+  await cacheCryptos();
 });
 
 process.on('uncaughtException', () => server.close());
