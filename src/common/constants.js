@@ -18,7 +18,7 @@ export default {
   //   'TRY', 'ZAR',
   // ],
   CURRENCIES: [
-    'AUD', 'HKD', 'JPY', 'KRW', 'MXN', 'MYR', 'THB', 'GBP', 'USD',
+    'AUD', 'CNY', 'HKD', 'JPY', 'KRW', 'MXN', 'MYR', 'THB', 'GBP', 'USD', 'RUB',
   ],
 
   CRYPTOS: [
