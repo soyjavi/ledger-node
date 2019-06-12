@@ -1,9 +1,6 @@
 {
   "signup": {
-    "required": ["fingerprint", "pin"]
-  },
-  "signin": {
-    "required": ["fingerprint", "pin"]
+    "required": ["fingerprint"]
   },
   "profile": {
     "cache": 120,

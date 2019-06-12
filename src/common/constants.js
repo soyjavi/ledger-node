@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-const {
-  DIFFICULTY, INSTANCE, SECRET,
-} = process.env;
+const { DIFFICULTY, INSTANCE, SECRET } = process.env;
 
 export default {
   BLOCKCHAIN: {
@@ -30,7 +28,8 @@ export default {
     PRODUCTION: false,
   },
 
-  KEY: '2018', // new Date().getFullYear().toString()
+  KEY_TRANSACTIONS: 'txs',
+  KEY_VAULTS: 'vaults',
 
   MAPBOX: {
     HOST: 'api.mapbox.com',

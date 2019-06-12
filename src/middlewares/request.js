@@ -4,7 +4,7 @@ import Blockchain from 'vanillachain-core';
 import { cache, C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { BLOCKCHAIN, KEY } = C;
+const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
@@ -16,22 +16,28 @@ export default (req, res, next) => {
 
   req.routeMap = route;
   if (route.secure) {
-    const { headers: { authorization } } = req;
-    if (!authorization) return ERROR.FORBIDDEN(res);
+    const { headers: { authorization, secret } } = req;
+    if (!authorization || !secret) return ERROR.FORBIDDEN(res);
 
     const { blocks: sessions } = new Blockchain(BLOCKCHAIN);
     if (!sessions.find(({ hash }) => hash === authorization)) return ERROR.FORBIDDEN(res);
 
     let session = cache.get(authorization);
     if (!session) {
-      const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: 'vaults' });
-      const { blocks: [, lastTX] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: KEY });
+      session = { hash: authorization, secret };
 
-      session = {
-        hash: authorization,
-        vaults: vaults.map(({ hash }) => hash),
-        tx: lastTX,
-      };
+      if (secret) {
+        const connection = { ...BLOCKCHAIN, file: authorization, secret };
+        const { blocks: [, ...vaults] } = new Blockchain({ ...connection, key: KEY_VAULTS });
+        const { blocks: [, lastTX] } = new Blockchain({ ...connection, key: KEY_TRANSACTIONS });
+
+        session = {
+          ...session,
+          vaults: vaults.map(({ hash }) => hash),
+          tx: lastTX,
+        };
+      }
+
       cache.set(authorization, session, 120);
     }
 

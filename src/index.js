@@ -12,7 +12,6 @@ import {
 } from './middlewares';
 import {
   signup,
-  signin,
   profile,
   vault,
   transaction,
@@ -45,7 +44,6 @@ global.connections = {};
 app.use(request);
 app.get('/status', props, status);
 app.post('/signup', props, signup);
-app.post('/signin', props, signin);
 app.get('/profile', props, profile);
 app.post('/transaction', props, transaction);
 app.get('/transactions', props, transactions);

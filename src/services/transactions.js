@@ -2,7 +2,7 @@ import Blockchain from 'vanillachain-core';
 
 import { C, ERROR } from '../common';
 
-const { BLOCKCHAIN, KEY } = C;
+const { BLOCKCHAIN, KEY_TRANSACTIONS } = C;
 
 export default ({ props, session }, res) => {
   const {
@@ -11,7 +11,7 @@ export default ({ props, session }, res) => {
   } = props;
 
   let { blocks: txs } = new Blockchain({
-    ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
+    ...BLOCKCHAIN, file: session.hash, key: KEY_TRANSACTIONS, readMode: true, secret: session.secret,
   });
 
   if (latestTransaction) {
