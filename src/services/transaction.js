@@ -1,6 +1,6 @@
 import Blockchain from 'vanillachain-core';
 
-import { C, ERROR } from '../common';
+import { C, cache, ERROR } from '../common';
 
 const { BLOCKCHAIN, KEY_TRANSACTIONS } = C;
 
@@ -26,6 +26,7 @@ export default ({ props, session: { hash, secret, vaults = [] } }, res) => {
       type: parseInt(type, 10),
       value: parseFloat(value, 10),
     }, previousHash);
+    cache.set(hash, undefined);
 
     return res.json({
       hash: tx.hash,

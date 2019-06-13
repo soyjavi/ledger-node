@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import Blockchain from 'vanillachain-core';
 
-import { C } from '../common';
+import { C, cache } from '../common';
 
 dotenv.config();
 const { SECRET } = process.env;
@@ -22,20 +22,19 @@ const copy = (blocks = [], blockchain) => {
 
 export default async ({ props, session: { hash, secret } }, res) => {
   const { file, secure = SECRET } = props;
+  const connection = { file, secret: secure, readMode: true };
+  const connectionFork = { file: hash, secret };
 
-  const connection = {
-    ...BLOCKCHAIN, file, secret: secure, readMode: true,
-  };
-  const connectionFork = { ...BLOCKCHAIN, file: hash, secret };
+  // -- Get  blocks
+  const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: KEY_VAULTS });
+  const { blocks: [, ...txs] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: '2018' });
 
-  // -- vaults
-  const { blocks: [, ...vaults] } = new Blockchain({ ...connection, key: KEY_VAULTS });
-  const { blocks: [, ...txs] } = new Blockchain({ ...connection, key: '2018' });
+  cache.set(hash, undefined);
 
   return res.json({
     file,
     secure,
-    vaults: copy(vaults, new Blockchain({ ...connectionFork, key: KEY_VAULTS })),
-    txs: copy(txs, new Blockchain({ ...connectionFork, key: KEY_TRANSACTIONS })),
+    vaults: copy(vaults, new Blockchain({ ...BLOCKCHAIN, ...connectionFork, key: KEY_VAULTS })),
+    txs: copy(txs, new Blockchain({ ...BLOCKCHAIN, ...connectionFork, key: KEY_TRANSACTIONS })),
   });
 };
