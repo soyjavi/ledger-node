@@ -6,9 +6,8 @@ import vault from './vault';
 import transaction from './transaction';
 import transactions from './transactions';
 import fork from './fork';
-import mapImage from './mapImage';
+import heatmap from './heatmap';
 import mapPlace from './mapPlace';
-import locations from './locations';
 import backup from './backup';
 import status from './status';
 
@@ -20,9 +19,8 @@ export {
   transaction,
   transactions,
   fork,
-  mapImage,
+  heatmap,
   mapPlace,
-  locations,
   backup,
   status,
 };

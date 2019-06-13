@@ -5,6 +5,7 @@ import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 import prettyError from 'pretty-error';
+import { cacheCryptos, cacheCurrencies } from './common';
 
 import {
   cache, error, props, request, response,
@@ -17,9 +18,8 @@ import {
   transaction,
   transactions,
   fork,
-  mapImage,
+  heatmap,
   mapPlace,
-  locations,
   backup,
   status,
 } from './services';
@@ -50,9 +50,8 @@ app.get('/profile', props, profile);
 app.post('/transaction', props, transaction);
 app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
-app.get('/staticmap', props, mapImage);
 app.get('/place', cache, props, mapPlace);
-app.get('/locations', props, locations);
+app.get('/heatmap', props, heatmap);
 app.get('/fork', props, fork);
 // --- Admin tools
 app.get('/backup', props, backup);
@@ -62,6 +61,12 @@ app.use(response);
 app.use(error);
 
 // -- Listen
-const listener = server.listen(PORT, () => {
+const listener = server.listen(PORT, async () => {
   console.log(`☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`);
+
+  // -- Build cache
+  await cacheCurrencies();
+  await cacheCryptos();
 });
+
+process.on('uncaughtException', () => server.close());

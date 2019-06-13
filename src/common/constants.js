@@ -10,42 +10,19 @@ export default {
     difficulty: parseInt(DIFFICULTY, 10), secret: SECRET, file: INSTANCE, key: 'sessions',
   },
 
-  CURRENCY: 'USD',
-
+  CURRENCY: 'EUR',
+  // CURRENCIES: [
+  //   'USD', 'JPY', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'BGN', 'BRL',
+  //   'CZK', 'DKK', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'KRW', 'MXN',
+  //   'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'RUB', 'SEK', 'SGD', 'THB',
+  //   'TRY', 'ZAR',
+  // ],
   CURRENCIES: [
-    'USD',
-    'EUR',
-    'JPY',
-    'GBP',
-    'AUD',
-    'CAD',
-    'CHF',
-    'CNY',
-    'HKD',
-    'BGN',
-    'BRL',
-    'CZK',
-    'DKK',
-    'HRK',
-    'HUF',
-    'IDR',
-    'ILS',
-    'INR',
-    'ISK',
-    'KRW',
-    'MXN',
-    'MYR',
-    'NOK',
-    'NZD',
-    'PHP',
-    'PLN',
-    'RON',
-    'RUB',
-    'SEK',
-    'SGD',
-    'THB',
-    'TRY',
-    'ZAR',
+    'AUD', 'CNY', 'HKD', 'JPY', 'KRW', 'MXN', 'MYR', 'THB', 'GBP', 'USD', 'RUB',
+  ],
+
+  CRYPTOS: [
+    'BTC',
   ],
 
   ENV: {
@@ -54,6 +31,18 @@ export default {
   },
 
   KEY: '2018', // new Date().getFullYear().toString()
+
+  MAPBOX: {
+    HOST: 'api.mapbox.com',
+    PATH: 'styles/v1/mapbox/light-v9/static',
+    PATH_DARK: 'styles/v1/mapbox/dark-v9/static',
+    PROPS: 'attribution=false&logo=false',
+  },
+
+  SERVICES: {
+    FIAT: 'https://api.exchangeratesapi.io',
+    CRYPTO: 'https://min-api.cryptocompare.com',
+  },
 
   TX: {
     TYPE: {
