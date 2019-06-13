@@ -21,6 +21,7 @@
   },
   "fork": {
     "required": ["file"],
+    "optional": ["secure"],
     "secure": true
   },
   "place": {

@@ -50,8 +50,8 @@ app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
 app.get('/place', cache, props, mapPlace);
 app.get('/heatmap', props, heatmap);
-app.get('/fork', props, fork);
 // --- Admin tools
+app.post('/fork', props, fork);
 app.get('/backup', props, backup);
 app.use(response);
 
