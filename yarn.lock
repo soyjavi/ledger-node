@@ -5818,10 +5818,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanillachain-core@0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/vanillachain-core/-/vanillachain-core-0.1.8.tgz#cddcb3a8233089fb9fc000c6ab05189d3c028299"
-  integrity sha512-VutVJGqzpWSo3GdNg+wPx4RJWMha4nWK+b9PcWVH5+aLR+zRdIHEKQ1ZgAmgVCpElwI85mriRGyUfIa2XljGEQ==
+vanillachain-core@0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/vanillachain-core/-/vanillachain-core-0.1.9.tgz#b91cb066d922ee9e382cd22916a784b50dc6cc0e"
+  integrity sha512-e3VF1VTNp7ZfmF4II5wdZHEiDK0XCm5c5yyhZCr6qKYOkcOl1VzFaFYlLuWblG0VRkHi79K6xVbBP2iCnH93zA==
   dependencies:
     crypto-js "3.1.8"
 
