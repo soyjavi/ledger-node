@@ -1,10 +1,10 @@
 import onFinished from 'on-finished';
 import Blockchain from 'vanillachain-core';
 
-import { cache, C, ERROR } from '../common';
+import { C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
+const { BLOCKCHAIN } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
@@ -22,26 +22,7 @@ export default (req, res, next) => {
     const { blocks: sessions } = new Blockchain(BLOCKCHAIN);
     if (!sessions.find(({ hash }) => hash === authorization)) return ERROR.FORBIDDEN(res);
 
-    let session = cache.get(authorization);
-    if (!session) {
-      session = { hash: authorization, secret };
-
-      if (secret) {
-        const connection = { ...BLOCKCHAIN, file: authorization, secret };
-        const { blocks: [, ...vaults] } = new Blockchain({ ...connection, key: KEY_VAULTS });
-        const { blocks: [, lastTX] } = new Blockchain({ ...connection, key: KEY_TRANSACTIONS });
-
-        session = {
-          ...session,
-          vaults: vaults.map(({ hash }) => hash),
-          tx: lastTX,
-        };
-      }
-
-      cache.set(authorization, session, 120);
-    }
-
-    req.session = session;
+    req.session = { file: authorization, secret };
   }
 
   onFinished(res, () => {

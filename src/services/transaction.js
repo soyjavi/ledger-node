@@ -1,20 +1,18 @@
 import Blockchain from 'vanillachain-core';
 
-import { C, cache, ERROR } from '../common';
+import { C, ERROR } from '../common';
 
-const { BLOCKCHAIN, KEY_TRANSACTIONS } = C;
+const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
 
-export default ({ props, session: { hash, secret, vaults = [] } }, res) => {
+export default ({ props, session }, res) => {
   const {
     category, latitude, longitude, place, previousHash, title, type, value, ...data
   } = props;
 
-  if (!vaults.includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
+  const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS });
+  if (!vaults.map(vault => vault.hash).includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
-  const txs = new Blockchain({
-    ...BLOCKCHAIN, file: hash, key: KEY_TRANSACTIONS, secret,
-  });
-
+  const txs = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS });
   try {
     const tx = txs.addBlock({
       ...data,
@@ -26,7 +24,6 @@ export default ({ props, session: { hash, secret, vaults = [] } }, res) => {
       type: parseInt(type, 10),
       value: parseFloat(value, 10),
     }, previousHash);
-    cache.set(hash, undefined);
 
     return res.json({
       hash: tx.hash,

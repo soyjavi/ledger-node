@@ -11,7 +11,7 @@ export default ({ props, session }, res) => {
   } = props;
 
   let { blocks: txs } = new Blockchain({
-    ...BLOCKCHAIN, file: session.hash, key: KEY_TRANSACTIONS, readMode: true, secret: session.secret,
+    ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS, readMode: true,
   });
 
   if (latestTransaction) {
