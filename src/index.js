@@ -5,7 +5,7 @@ import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 import prettyError from 'pretty-error';
-import { cacheCryptos, cacheCurrencies } from './common';
+import { cacheCryptos, cacheCurrencies, cacheMetals } from './common';
 
 import {
   cache, error, props, request, response,
@@ -65,6 +65,7 @@ const listener = server.listen(PORT, async () => {
   // -- Build cache
   await cacheCurrencies();
   await cacheCryptos();
+  await cacheMetals();
 });
 
 process.on('uncaughtException', () => server.close());
