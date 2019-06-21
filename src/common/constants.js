@@ -20,6 +20,9 @@ export default {
   CURRENCIES: [
     'AUD', 'CNY', 'HKD', 'JPY', 'KRW', 'MXN', 'MYR', 'THB', 'GBP', 'USD', 'RUB',
   ],
+  METALS: [
+    'XAU', 'XAG',
+  ],
 
   CRYPTOS: [
     'BTC',
@@ -42,6 +45,7 @@ export default {
   SERVICES: {
     FIAT: 'https://api.exchangeratesapi.io',
     CRYPTO: 'https://min-api.cryptocompare.com',
+    METAL: 'http://apilayer.net/api',
   },
 
   TX: {
