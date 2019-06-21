@@ -8,6 +8,7 @@ dotenv.config();
 const { APILAYER_TOKEN } = process.env;
 const { METALS, SERVICES } = C;
 const FILE_NAME = 'metals.json';
+const OUNZE_GRAM_RATIO = 0.03527396;
 
 const getRates = async () => {
   const metals = METALS.join(',');
@@ -17,15 +18,15 @@ const getRates = async () => {
     const { quotes: { USDEUR, USDXAU, USDXAG } } = await response.json();
 
     return ({
-      XAU: USDXAU / USDEUR,
-      XAG: USDXAG / USDEUR,
+      XAU: (USDXAU / USDEUR) / OUNZE_GRAM_RATIO,
+      XAG: (USDXAG / USDEUR) / OUNZE_GRAM_RATIO,
     });
   }
 
   return {};
 };
 
-export default async (onlyLatest = false) => {
+export default async () => {
   let history = readFile(FILE_NAME);
   const today = new Date();
 
