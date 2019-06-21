@@ -30,7 +30,8 @@ export default async (baseCurrency) => {
       ...currencies[key],
       [CURRENCY]: round(baseRate),
       BTC: (1 / cryptos[key][CURRENCY]) / (1 / baseRate),
-      AUX: 1,
+      XAU: metals[key] ? metals[key].XAU / (1 / baseRate) : undefined,
+      XAG: metals[key] ? metals[key].XAG / (1 / baseRate) : undefined,
     };
   });
 

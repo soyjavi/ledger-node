@@ -1,7 +1,7 @@
 {
   "name": "voltvault",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "dependencies": {
     "archiver": "3.0.0",
     "body-parser": "1.18.3",
