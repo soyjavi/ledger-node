@@ -1,5 +1,5 @@
 import {
-  cache, C, cacheCryptos, cacheCurrencies,
+  cache, C, cacheCryptos, cacheCurrencies, cacheMetals,
 } from '../../common';
 
 const { CURRENCY } = C;
@@ -15,6 +15,7 @@ export default async (baseCurrency) => {
   const onlyLatest = true;
   const currencies = await cacheCurrencies(onlyLatest);
   const cryptos = await cacheCryptos(onlyLatest);
+  const metals = await cacheMetals(onlyLatest);
   const isBase = baseCurrency === CURRENCY;
 
   rates = {};
@@ -29,6 +30,7 @@ export default async (baseCurrency) => {
       ...currencies[key],
       [CURRENCY]: round(baseRate),
       BTC: (1 / cryptos[key][CURRENCY]) / (1 / baseRate),
+      AUX: 1,
     };
   });
 
