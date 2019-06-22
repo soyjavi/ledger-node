@@ -22,7 +22,12 @@ export default (req, res, next) => {
     const { blocks: sessions } = new Blockchain(BLOCKCHAIN);
     if (!sessions.find(({ hash }) => hash === authorization)) return ERROR.FORBIDDEN(res);
 
-    req.session = { file: authorization, secret };
+    const session = { file: authorization, secret };
+    try {
+      new Blockchain({ ...BLOCKCHAIN, ...session });
+    } catch (error) { return ERROR.MESSAGE(res, error); }
+
+    req.session = session;
   }
 
   onFinished(res, () => {
