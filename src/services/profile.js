@@ -10,7 +10,6 @@ const {
 export default async ({ session }, res) => {
   const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS });
   const { latestBlock } = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS });
-
   const baseCurrency = vaults[0] ? vaults[0].data.currency : CURRENCY;
 
   return res.json({

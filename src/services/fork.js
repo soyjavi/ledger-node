@@ -8,7 +8,7 @@ const { SECRET } = process.env;
 const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
 
 const copy = (blocks = [], blockchain) => {
-  let [block] = blockchain.blocks.slice(-1);
+  let { latestBlock: block } = blockchain;
 
   blocks.forEach(({ data, timestamp }, index) => {
     if (data) {
@@ -31,7 +31,15 @@ export default async ({ props, session }, res) => {
   return res.json({
     file,
     secure,
-    vaults: copy(vaults, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS })),
-    txs: copy(txs, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS })),
+    origin: {
+      ...connection,
+      vaults: vaults.length + 1,
+      txs: txs.length + 1,
+    },
+    fork: {
+      ...session,
+      vaults: copy(vaults, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS })),
+      txs: copy(txs, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS })),
+    },
   });
 };

@@ -4,7 +4,7 @@ import Blockchain from 'vanillachain-core';
 import { C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { BLOCKCHAIN } = C;
+const { BLOCKCHAIN, KEY_VAULTS } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
@@ -24,7 +24,7 @@ export default (req, res, next) => {
 
     const session = { file: authorization, secret };
     try {
-      new Blockchain({ ...BLOCKCHAIN, ...session });
+      new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS }); // eslint-disable-line
     } catch (error) { return ERROR.MESSAGE(res, error); }
 
     req.session = session;
