@@ -12,7 +12,7 @@
     "node-fetch": "2.6.0",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
-    "vanillachain-core": "0.1.12"
+    "vanillachain-core": "0.1.13"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",
