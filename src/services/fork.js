@@ -10,9 +10,9 @@ const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
 const copy = (blocks = [], blockchain) => {
   let { latestBlock: block } = blockchain;
 
-  blocks.forEach(({ data, timestamp }, index) => {
+  blocks.forEach(({ data, timestamp, ...fork }, index) => {
     if (data) {
-      block = blockchain.addBlock({ ...data, timestamp }, block.hash);
+      block = blockchain.addBlock({ ...data, timestamp }, block.hash, fork);
       console.log(`${index}. (${block.nonce}) .${block.hash}`);
     }
   });
