@@ -1,10 +1,10 @@
 import onFinished from 'on-finished';
 import Blockchain from 'vanillachain-core';
 
-import { cache, C, ERROR } from '../common';
+import { C, ERROR } from '../common';
 import MAP from '../../map.json';
 
-const { BLOCKCHAIN, KEY } = C;
+const { BLOCKCHAIN, KEY_VAULTS } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
@@ -16,24 +16,16 @@ export default (req, res, next) => {
 
   req.routeMap = route;
   if (route.secure) {
-    const { headers: { authorization } } = req;
-    if (!authorization) return ERROR.FORBIDDEN(res);
+    const { headers: { authorization, secret } } = req;
+    if (!authorization || !secret) return ERROR.FORBIDDEN(res);
 
     const { blocks: sessions } = new Blockchain(BLOCKCHAIN);
     if (!sessions.find(({ hash }) => hash === authorization)) return ERROR.FORBIDDEN(res);
 
-    let session = cache.get(authorization);
-    if (!session) {
-      const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: 'vaults' });
-      const { blocks: [, lastTX] } = new Blockchain({ ...BLOCKCHAIN, file: authorization, key: KEY });
-
-      session = {
-        hash: authorization,
-        vaults: vaults.map(({ hash }) => hash),
-        tx: lastTX,
-      };
-      cache.set(authorization, session, 120);
-    }
+    const session = { file: authorization, secret };
+    try {
+      new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS }); // eslint-disable-line
+    } catch (error) { return ERROR.MESSAGE(res, error); }
 
     req.session = session;
   }

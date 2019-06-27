@@ -1,27 +1,45 @@
+import dotenv from 'dotenv';
 import Blockchain from 'vanillachain-core';
 
 import { C } from '../common';
 
-const { BLOCKCHAIN, KEY } = C;
+dotenv.config();
+const { SECRET } = process.env;
+const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
+
+const copy = (blocks = [], blockchain) => {
+  let { latestBlock: block } = blockchain;
+
+  blocks.forEach(({ data, timestamp, ...fork }, index) => {
+    if (data) {
+      block = blockchain.addBlock({ ...data, timestamp }, block.hash, fork);
+      console.log(`${index}. (${block.nonce}) .${block.hash}`);
+    }
+  });
+
+  return blockchain.blocks.length;
+};
 
 export default async ({ props, session }, res) => {
-  const {
+  const { file, secure = SECRET } = props;
+  const connection = { file, secret: secure, readMode: true };
+
+  // -- Get  blocks
+  const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: KEY_VAULTS });
+  const { blocks: [, ...txs] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: '2018' });
+
+  return res.json({
     file,
-  } = props;
-
-  const { blocks: [, ...blocks] } = new Blockchain({
-    ...BLOCKCHAIN, file: session.hash, key: KEY, readMode: true,
-  });
-
-  const fork = new Blockchain({ ...BLOCKCHAIN, file, key: KEY });
-  let { blocks: [block] } = fork;
-
-  blocks.forEach(({ data, timestamp }) => {
-    if (data) block = fork.addBlock({ ...data, timestamp }, block.hash);
-  });
-
-  res.json({
-    origin: { file: session.hash, blocks: blocks.length + 1 },
-    fork: { file, blocks: fork.blocks.length },
+    secure,
+    origin: {
+      ...connection,
+      vaults: vaults.length + 1,
+      txs: txs.length + 1,
+    },
+    fork: {
+      ...session,
+      vaults: copy(vaults, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS })),
+      txs: copy(txs, new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS })),
+    },
   });
 };

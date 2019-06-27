@@ -12,7 +12,6 @@ import {
 } from './middlewares';
 import {
   signup,
-  signin,
   profile,
   vault,
   transaction,
@@ -45,15 +44,14 @@ global.connections = {};
 app.use(request);
 app.get('/status', props, status);
 app.post('/signup', props, signup);
-app.post('/signin', props, signin);
 app.get('/profile', props, profile);
 app.post('/transaction', props, transaction);
 app.get('/transactions', props, transactions);
 app.post('/vault', props, vault);
 app.get('/place', cache, props, mapPlace);
 app.get('/heatmap', props, heatmap);
-app.get('/fork', props, fork);
 // --- Admin tools
+app.post('/fork', props, fork);
 app.get('/backup', props, backup);
 app.use(response);
 

@@ -1,5 +1,4 @@
 import signup from './signup';
-import signin from './signin';
 
 import profile from './profile';
 import vault from './vault';
@@ -13,7 +12,6 @@ import status from './status';
 
 export {
   signup,
-  signin,
   profile,
   vault,
   transaction,

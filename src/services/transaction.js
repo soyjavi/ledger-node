@@ -2,17 +2,17 @@ import Blockchain from 'vanillachain-core';
 
 import { C, ERROR } from '../common';
 
-const { BLOCKCHAIN, KEY } = C;
+const { BLOCKCHAIN, KEY_TRANSACTIONS, KEY_VAULTS } = C;
 
 export default ({ props, session }, res) => {
   const {
     category, latitude, longitude, place, previousHash, title, type, value, ...data
   } = props;
 
-  if (!session.vaults.includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
+  const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS });
+  if (!vaults.map(vault => vault.hash).includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
-  const txs = new Blockchain({ ...BLOCKCHAIN, file: session.hash, key: KEY });
-
+  const txs = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS });
   try {
     const tx = txs.addBlock({
       ...data,
