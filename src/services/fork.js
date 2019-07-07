@@ -12,7 +12,7 @@ const copy = (blocks = [], blockchain) => {
 
   blocks.forEach(({ data, timestamp, ...fork }, index) => {
     if (data) {
-      block = blockchain.addBlock({ ...data, timestamp }, block.hash, fork);
+      block = blockchain.addBlock({ ...data, timestamp: data.timestamp || timestamp }, block.hash, fork);
       console.log(`${index}. (${block.nonce}) .${block.hash}`);
     }
   });
