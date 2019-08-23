@@ -1,7 +1,7 @@
 {
   "name": "voltvault",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "dependencies": {
     "archiver": "3.0.0",
     "body-parser": "1.19.0",
@@ -12,7 +12,7 @@
     "node-fetch": "2.6.0",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
-    "vanillachain-core": "0.1.14"
+    "vanillachain-core": "0.1.15"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",

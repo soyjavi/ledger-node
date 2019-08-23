@@ -22,11 +22,15 @@ const copy = (blocks = [], blockchain) => {
 
 export default async ({ props, session }, res) => {
   const { file, secure = SECRET } = props;
-  const connection = { file, secret: secure, readMode: true };
+  const connection = { file, secret: secure, readMode: false };
 
   // -- Get  blocks
   const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: KEY_VAULTS });
-  const { blocks: [, ...txs] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: '2018' });
+  const { blocks: [, ...txs] } = new Blockchain({ ...BLOCKCHAIN, ...connection, key: KEY_TRANSACTIONS });
+
+  // -- Wipe blockchain
+  const blockchain = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS });
+  blockchain.wipe();
 
   return res.json({
     file,
