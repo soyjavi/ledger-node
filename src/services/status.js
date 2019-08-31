@@ -9,7 +9,7 @@ const { INSTANCE } = process.env;
 const { BLOCKCHAIN } = C;
 
 export default (req, res, next) => {
-  const { blocks: [, ...blocks]} = new Blockchain(BLOCKCHAIN);
+  const { blocks: [, ...blocks] } = new Blockchain(BLOCKCHAIN);
 
   res.dataSource = {
     instance: INSTANCE,

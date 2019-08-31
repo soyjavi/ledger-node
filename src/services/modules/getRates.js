@@ -4,7 +4,7 @@ import {
 
 const { CURRENCY } = C;
 
-const round = value => parseFloat(value.toFixed(4), 10);
+const round = (value) => parseFloat(value.toFixed(4), 10);
 
 export default async (baseCurrency) => {
   const cacheKey = `rates:${baseCurrency}`;

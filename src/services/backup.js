@@ -17,4 +17,6 @@ export default ({ props: { key } }, res) => {
 
   zip.pipe(res);
   zip.directory('store/', false).finalize();
+
+  return res;
 };

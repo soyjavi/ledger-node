@@ -10,7 +10,7 @@ export default ({ props, session }, res) => {
   } = props;
 
   const { blocks: [, ...vaults] } = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_VAULTS });
-  if (!vaults.map(vault => vault.hash).includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
+  if (!vaults.map((vault) => vault.hash).includes(data.vault)) return ERROR.MESSAGE(res, { message: 'Vault not found.' });
 
   const txs = new Blockchain({ ...BLOCKCHAIN, ...session, key: KEY_TRANSACTIONS });
   try {

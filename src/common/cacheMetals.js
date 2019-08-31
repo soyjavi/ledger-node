@@ -15,15 +15,19 @@ const getRates = async () => {
   const response = await fetch(`${SERVICES.METAL}/live?access_key=${APILAYER_TOKEN}&currencies=EUR,${metals}`);
 
   if (response) {
-    const { quotes: { USDEUR, USDXAU, USDXAG } } = await response.json();
+    const { quotes } = await response.json();
 
-    return ({
-      XAU: (USDXAU / USDEUR) / OUNZE_GRAM_RATIO,
-      XAG: (USDXAG / USDEUR) / OUNZE_GRAM_RATIO,
-    });
+    if (quotes) {
+      const { USDEUR, USDXAU, USDXAG } = quotes;
+
+      return ({
+        XAU: (USDXAU / USDEUR) / OUNZE_GRAM_RATIO,
+        XAG: (USDXAG / USDEUR) / OUNZE_GRAM_RATIO,
+      });
+    }
   }
 
-  return {};
+  return undefined;
 };
 
 export default async () => {
@@ -32,9 +36,12 @@ export default async () => {
 
   // -- Get latest rate for this month
   console.log('⚙️  Fetching latest METALS rates...');
+  const key = (today).toISOString().substr(0, 7);
+  const rates = await getRates();
+
   history = {
     ...history,
-    [(today).toISOString().substr(0, 7)]: await getRates(),
+    [key]: rates || history[key],
   };
 
   writeFile(FILE_NAME, history);
