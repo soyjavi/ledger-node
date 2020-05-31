@@ -35,5 +35,8 @@
     "required": ["points"],
     "optional": ["center", "color", "precission", "resolution", "style"]
   },
+  "rates": {
+    "required": ["baseCurrency"]
+  },
   "status": {}
 }

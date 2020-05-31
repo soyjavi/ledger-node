@@ -6,7 +6,7 @@ const { CURRENCY } = C;
 
 const round = (value) => parseFloat(value.toFixed(4), 10);
 
-export default async (baseCurrency) => {
+export default async (baseCurrency = CURRENCY) => {
   const cacheKey = `rates:${baseCurrency}`;
 
   let rates = cache.get(cacheKey);
@@ -19,6 +19,7 @@ export default async (baseCurrency) => {
   const isBase = baseCurrency === CURRENCY;
 
   rates = {};
+
   Object.keys(currencies).sort().forEach((key) => {
     const baseRate = isBase ? 1 : 1 / currencies[key][baseCurrency];
 

@@ -1,15 +1,13 @@
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import cors from 'cors';
-import express from 'express';
-import http from 'http';
-import dotenv from 'dotenv';
-import prettyError from 'pretty-error';
-import { cacheCryptos, cacheCurrencies, cacheMetals } from './common';
+import bodyParser from "body-parser";
+import compression from "compression";
+import cors from "cors";
+import express from "express";
+import http from "http";
+import dotenv from "dotenv";
+import prettyError from "pretty-error";
+import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
 
-import {
-  cache, error, props, request, response,
-} from './middlewares';
+import { cache, error, props, request, response } from "./middlewares";
 import {
   signup,
   profile,
@@ -20,9 +18,10 @@ import {
   heatmap,
   mapPlace,
   backup,
+  rates,
   status,
-} from './services';
-import PKG from '../package.json';
+} from "./services";
+import PKG from "../package.json";
 
 dotenv.config();
 prettyError.start();
@@ -42,17 +41,18 @@ global.connections = {};
 
 // -- Middlewares
 app.use(request);
-app.get('/status', props, status);
-app.post('/signup', props, signup);
-app.get('/profile', props, profile);
-app.post('/transaction', props, transaction);
-app.get('/transactions', props, transactions);
-app.post('/vault', props, vault);
-app.get('/place', cache, props, mapPlace);
-app.get('/heatmap', props, heatmap);
+app.get("/status", props, status);
+app.post("/signup", props, signup);
+app.get("/profile", props, profile);
+app.post("/transaction", props, transaction);
+app.get("/transactions", props, transactions);
+app.post("/vault", props, vault);
+app.get("/place", cache, props, mapPlace);
+app.get("/heatmap", props, heatmap);
+app.get("/rates", props, rates);
 // --- Admin tools
-app.post('/fork', props, fork);
-app.get('/backup', props, backup);
+app.post("/fork", props, fork);
+app.get("/backup", props, backup);
 app.use(response);
 
 // -- Global Error Handler
@@ -60,12 +60,14 @@ app.use(error);
 
 // -- Listen
 const listener = server.listen(PORT, async () => {
-  console.log(`☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`);
+  console.log(
+    `☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`
+  );
 
   // -- Build cache
-  await cacheCurrencies();
-  await cacheCryptos();
-  await cacheMetals();
+  // await cacheCurrencies();
+  // await cacheCryptos();
+  // await cacheMetals();
 });
 
-process.on('uncaughtException', () => server.close());
+process.on("uncaughtException", () => server.close());

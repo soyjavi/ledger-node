@@ -8,6 +8,7 @@ import fork from './fork';
 import heatmap from './heatmap';
 import mapPlace from './mapPlace';
 import backup from './backup';
+import rates from './rates';
 import status from './status';
 
 export {
@@ -20,5 +21,6 @@ export {
   heatmap,
   mapPlace,
   backup,
+  rates,
   status,
 };
