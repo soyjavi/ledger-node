@@ -1,5 +1,5 @@
 {
-  "name": "voltvault",
+  "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
   "version": "0.8.0",
   "dependencies": {
@@ -32,6 +32,6 @@
     "test": "jest --detectOpenHandles",
     "build": "babel -d ./dist ./src -s",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
-    "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js"
+    "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js --trace-warnings"
   }
 }
