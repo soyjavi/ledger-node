@@ -1,15 +1,18 @@
-import Blockchain from 'vanillachain-core';
+import { Blockchain } from "vanilla-blockchain";
 
-import { C } from '../common';
+import { C } from "../common";
 
-const { BLOCKCHAIN } = C;
+const { BLOCKCHAIN, KEY_VAULTS } = C;
 
 export default ({ props }, res) => {
   const blockchain = new Blockchain(BLOCKCHAIN);
 
-  const { hash } = blockchain.addBlock(props, blockchain.latestBlock.hash);
+  const { hash: authorization } = blockchain.addBlock(
+    props,
+    blockchain.latestBlock.hash
+  );
 
   res.json({
-    hash,
+    authorization,
   });
 };
