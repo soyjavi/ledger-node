@@ -14,14 +14,12 @@
     "required": ["latitude", "longitude"]
   },
   "state": {
-    "required": ["lastHash"],
     "secure": true
   },
   "sync": {
-    "required": ["blocks"],
+    "required": ["key", "blocks"],
     "secure": true
   },
-
   "backup": {
     "required": ["key"]
   },
