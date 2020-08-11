@@ -1,26 +1,18 @@
-import signup from './signup';
+import signup from "./signup";
+import rates from "./rates";
+import map from "./map";
+import place from "./place";
 
-import profile from './profile';
-import vault from './vault';
-import transaction from './transaction';
-import transactions from './transactions';
-import fork from './fork';
-import heatmap from './heatmap';
-import mapPlace from './mapPlace';
-import backup from './backup';
-import rates from './rates';
-import status from './status';
+// Admin
+import backup from "./backup";
+import status from "./status";
 
 export {
   signup,
-  profile,
-  vault,
-  transaction,
-  transactions,
-  fork,
-  heatmap,
-  mapPlace,
-  backup,
   rates,
+  map,
+  place,
+  // Admin
+  backup,
   status,
 };

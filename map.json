@@ -2,41 +2,28 @@
   "signup": {
     "required": ["fingerprint"]
   },
-  "profile": {
-    "cache": 120,
-    "secure": true
+  "rates": {
+    "required": ["baseCurrency"]
   },
-  "vault": {
-    "required": ["title", "balance", "currency"],
-    "secure": true
-  },
-  "transaction": {
-    "required": ["category", "vault", "type", "value", "previousHash"],
-    "optional": ["title", "timestamp", "place", "latitude", "longitude"],
-    "secure": true
-  },
-  "transactions": {
-    "optional": ["latestTransaction", "year", "month"],
-    "secure": true
-  },
-  "fork": {
-    "required": ["file"],
-    "optional": ["secure"],
-    "secure": true
+  "map": {
+    "required": ["points"],
+    "optional": ["center", "color", "precission", "resolution", "style"]
   },
   "place": {
     "cache": 120,
     "required": ["latitude", "longitude"]
   },
+  "state": {
+    "required": ["lastHash"],
+    "secure": true
+  },
+  "sync": {
+    "required": ["blocks"],
+    "secure": true
+  },
+
   "backup": {
     "required": ["key"]
-  },
-  "heatmap": {
-    "required": ["points"],
-    "optional": ["center", "color", "precission", "resolution", "style"]
-  },
-  "rates": {
-    "required": ["baseCurrency"]
   },
   "status": {}
 }

@@ -10,15 +10,11 @@ import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
 import { cache, error, props, request, response } from "./middlewares";
 import {
   signup,
-  profile,
-  vault,
-  transaction,
-  transactions,
-  fork,
-  heatmap,
-  mapPlace,
-  backup,
   rates,
+  map,
+  place,
+  // Admin
+  backup,
   status,
 } from "./services";
 import PKG from "../package.json";
@@ -43,15 +39,10 @@ global.connections = {};
 app.use(request);
 app.get("/status", props, status);
 app.post("/signup", props, signup);
-app.get("/profile", props, profile);
-app.post("/transaction", props, transaction);
-app.get("/transactions", props, transactions);
-app.post("/vault", props, vault);
-app.get("/place", cache, props, mapPlace);
-app.get("/heatmap", props, heatmap);
 app.get("/rates", props, rates);
+app.get("/map", props, map);
+app.get("/place", cache, props, place);
 // --- Admin tools
-app.post("/fork", props, fork);
 app.get("/backup", props, backup);
 app.use(response);
 
