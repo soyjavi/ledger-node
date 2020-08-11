@@ -1,6 +1,10 @@
 import {
-  cache, C, cacheCryptos, cacheCurrencies, cacheMetals,
-} from '../../common';
+  cache,
+  C,
+  cacheCryptos,
+  cacheCurrencies,
+  cacheMetals,
+} from "../../common";
 
 const { CURRENCY } = C;
 
@@ -20,21 +24,25 @@ export default async (baseCurrency = CURRENCY) => {
 
   rates = {};
 
-  Object.keys(currencies).sort().forEach((key) => {
-    const baseRate = isBase ? 1 : 1 / currencies[key][baseCurrency];
+  Object.keys(currencies)
+    .sort()
+    .forEach((key) => {
+      const baseRate = isBase ? 1 : 1 / currencies[key][baseCurrency];
 
-    Object.keys(currencies[key]).forEach((currency) => {
-      currencies[key][currency] = round(currencies[key][currency] / (1 / baseRate));
+      Object.keys(currencies[key]).forEach((currency) => {
+        currencies[key][currency] = round(
+          currencies[key][currency] / (1 / baseRate)
+        );
+      });
+
+      rates[key] = {
+        ...currencies[key],
+        [CURRENCY]: round(baseRate),
+        BTC: 1 / cryptos[key][CURRENCY] / (1 / baseRate),
+        XAU: metals[key] ? metals[key].XAU / (1 / baseRate) : undefined,
+        XAG: metals[key] ? metals[key].XAG / (1 / baseRate) : undefined,
+      };
     });
-
-    rates[key] = {
-      ...currencies[key],
-      [CURRENCY]: round(baseRate),
-      BTC: (1 / cryptos[key][CURRENCY]) / (1 / baseRate),
-      XAU: metals[key] ? metals[key].XAU / (1 / baseRate) : undefined,
-      XAG: metals[key] ? metals[key].XAG / (1 / baseRate) : undefined,
-    };
-  });
 
   cache.set(cacheKey, rates, 3600);
 

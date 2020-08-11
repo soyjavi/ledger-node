@@ -1,7 +1,9 @@
-import { ERROR } from '../common';
+import { ERROR } from "../common";
 
 export default (req, res, next) => {
-  const { routeMap: { required = [], optional = [] } } = req;
+  const {
+    routeMap: { required = [], optional = [] },
+  } = req;
   const routeProps = required.concat(optional);
   const requestProps = { ...req.params, ...req.query, ...req.body };
 
@@ -14,7 +16,8 @@ export default (req, res, next) => {
     const props = Object.keys(req.props);
     const requiredParameters = required.filter((x) => !props.includes(x));
 
-    if (requiredParameters.length > 0) return ERROR.REQUIRED_PARAMETERS(res, requiredParameters.join(', '));
+    if (requiredParameters.length > 0)
+      return ERROR.REQUIRED_PARAMETERS(res, requiredParameters.join(", "));
   }
 
   return next();

@@ -5,10 +5,17 @@ const { DIFFICULTY, INSTANCE, SECRET } = process.env;
 
 export default {
   BLOCKCHAIN: {
+    defaults: { sessions: [] },
     difficulty: parseInt(DIFFICULTY, 10),
-    secret: SECRET,
-    file: INSTANCE,
+    filename: INSTANCE,
     key: "sessions",
+    secret: SECRET,
+  },
+
+  BLOCKCHAIN_NODE: {
+    defaults: { txs: [], vaults: [] },
+    difficulty: parseInt(DIFFICULTY, 10),
+    key: "vaults",
   },
 
   CURRENCY: "EUR",

@@ -1,23 +1,25 @@
+import http from "http";
+
 import bodyParser from "body-parser";
 import compression from "compression";
 import cors from "cors";
-import express from "express";
-import http from "http";
 import dotenv from "dotenv";
+import express from "express";
 import prettyError from "pretty-error";
-import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
 
+import PKG from "../package.json";
+import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
 import { cache, error, props, request, response } from "./middlewares";
 import {
   signup,
   rates,
   map,
   place,
+  state,
   // Admin
   backup,
   status,
 } from "./services";
-import PKG from "../package.json";
 
 dotenv.config();
 prettyError.start();
@@ -42,6 +44,7 @@ app.post("/signup", props, signup);
 app.get("/rates", props, rates);
 app.get("/map", props, map);
 app.get("/place", cache, props, place);
+app.get("/state", props, state);
 // --- Admin tools
 app.get("/backup", props, backup);
 app.use(response);

@@ -1,15 +1,17 @@
-import Blockchain from 'vanillachain-core';
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import { Blockchain } from "vanilla-blockchain";
 
-import PKG from '../../package.json';
-import { cache, C } from '../common';
+import PKG from "../../package.json";
+import { cache, C } from "../common";
 
 dotenv.config();
 const { INSTANCE } = process.env;
 const { BLOCKCHAIN } = C;
 
 export default (req, res, next) => {
-  const { blocks: [, ...blocks] } = new Blockchain(BLOCKCHAIN);
+  const {
+    blocks: [, ...blocks],
+  } = new Blockchain(BLOCKCHAIN);
 
   res.dataSource = {
     instance: INSTANCE,

@@ -1,4 +1,4 @@
-import { cache, ERROR } from '../common';
+import { cache, ERROR } from "../common";
 
 export default ({ originalUrl, routeMap }, res) => {
   const { dataSource } = res;

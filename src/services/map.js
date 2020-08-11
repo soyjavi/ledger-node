@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
 import https from "https";
+
+import dotenv from "dotenv";
 
 import { C } from "../common";
 
