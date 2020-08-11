@@ -6939,10 +6939,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanilla-blockchain@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/vanilla-blockchain/-/vanilla-blockchain-0.2.6.tgz#f850362e474616e1dfa2d20b499eb42380576a21"
-  integrity sha512-uzm6cbQ/HCToxAO+Vs+4ZxLjSZ+5ijs4tX3Adb63dA2Tmpj2SUvO6zOObRfKHZUFQdRtPwFXLC3fnqPA7lTh9w==
+vanilla-blockchain@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/vanilla-blockchain/-/vanilla-blockchain-0.2.7.tgz#8a4c002aa5ac730f56033fde6cbb08bb5d2f6363"
+  integrity sha512-3O/K3eC/qpZiQ2xm4h70f7yF2ahmEuy7x3qK0YoECI+f3kKGxlFk261Q+RLE0RMD1RsbDw1A7tEkcy6cKZkTbw==
   dependencies:
     crypto-js "4.0.0"
     vanilla-storage "0.3.7"
