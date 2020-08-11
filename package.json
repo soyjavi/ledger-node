@@ -1,7 +1,7 @@
 {
   "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "dependencies": {
     "archiver": "4.0.1",
     "body-parser": "1.19.0",
@@ -12,24 +12,27 @@
     "node-fetch": "2.6.0",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
-    "vanillachain-core": "0.1.14"
+    "vanilla-blockchain": "^0.2.6"
   },
   "devDependencies": {
-    "@babel/cli": "7.10.1",
-    "@babel/core": "7.10.2",
-    "@babel/node": "7.10.1",
-    "@babel/plugin-proposal-throw-expressions": "7.10.1",
-    "@babel/preset-env": "7.10.2",
-    "eslint": "7.1.0",
-    "eslint-config-airbnb": "18.1.0",
-    "eslint-plugin-import": "2.20.2",
-    "jest": "26.0.1",
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.10.3",
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
     "nodemon": "2.0.4"
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/**",
-    "test": "jest --detectOpenHandles",
+    "lint": "eslint src --fix",
+    "test": "yarn build && jest src --runInBand --collectCoverage",
     "build": "babel -d ./dist ./src -s",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
     "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js --trace-warnings"
