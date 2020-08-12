@@ -11,14 +11,18 @@ import PKG from "../package.json";
 import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
 import { cache, error, props, request, response } from "./middlewares";
 import {
-  signup,
-  rates,
-  map,
-  place,
-  state,
-  // Admin
+  // admin
   backup,
   status,
+  // map
+  map,
+  mapPlace,
+  // rates
+  rates,
+  // sync
+  signup,
+  sync,
+  syncState,
 } from "./services";
 
 dotenv.config();
@@ -39,14 +43,20 @@ global.connections = {};
 
 // -- Middlewares
 app.use(request);
+
+// admin
 app.get("/status", props, status);
-app.post("/signup", props, signup);
-app.get("/rates", props, rates);
-app.get("/map", props, map);
-app.get("/place", cache, props, place);
-app.get("/state", props, state);
-// --- Admin tools
 app.get("/backup", props, backup);
+// map
+app.get("/map/place", cache, props, mapPlace);
+app.get("/map", props, map);
+// rates
+app.get("/rates", props, rates);
+// sync
+app.post("/signup", props, signup);
+app.get("/state", props, syncState);
+app.post("/sync", props, sync);
+
 app.use(response);
 
 // -- Global Error Handler

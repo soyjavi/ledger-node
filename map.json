@@ -17,7 +17,8 @@
     "secure": true
   },
   "sync": {
-    "required": ["key", "blocks"],
+    "required": ["key"],
+    "optional": ["block", "blocks"],
     "secure": true
   },
   "backup": {

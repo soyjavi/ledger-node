@@ -10,7 +10,29 @@ const { MAPBOX } = C;
 const HEATMAP_OPACITY = [0.2, 0.4, 0.6, 0.8];
 const DARK = "dark";
 
-export default async ({ props }, res) => {
+const MAPBOX_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
+const PARAMETERS = "language=en&limit=1&types=place";
+
+export const mapPlace = async (
+  { props: { latitude, longitude } },
+  res,
+  next
+) => {
+  const url = `${MAPBOX_URL}/${longitude},${latitude}.json?${PARAMETERS}&access_token=${MAPBOX_ACCESS_TOKEN}`;
+  const response = await fetch(url);
+  let place;
+
+  if (response) {
+    const { features = [] } = (await response.json()) || {};
+    place = features[0] ? features[0].place_name_en : "Unknown Place";
+  }
+
+  res.dataSource = { place };
+
+  next();
+};
+
+export const map = async ({ props }, res) => {
   const {
     center = "auto",
     color = "#FF4500",
