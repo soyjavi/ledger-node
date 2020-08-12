@@ -27,18 +27,19 @@ export const signup = ({ props }, res) => {
 export const syncState = ({ props, session }, res) => {
   const storage = new Storage({ ...STORAGE, ...session });
 
-  const summaryKey = (key) => {
-    const { value = [] } = storage.get(key);
+  const blocks = (key) => storage.get(key).value.length;
 
-    return {
-      latestHash: value.length > 0 ? value.slice(-1).pop().hash : undefined,
-      length: value.length,
-    };
+  const latestHash = (key) => {
+    const { value = [] } = storage.get(key);
+    return value.length > 0 ? value.slice(-1).pop().hash : undefined;
   };
 
   res.json({
-    txs: summaryKey(KEY_TRANSACTIONS),
-    vaults: summaryKey(KEY_VAULTS),
+    blocks: { txs: blocks(KEY_TRANSACTIONS), vaults: blocks(KEY_VAULTS) },
+    latestHash: {
+      txs: latestHash(KEY_TRANSACTIONS),
+      vaults: latestHash(KEY_VAULTS),
+    },
   });
 };
 
