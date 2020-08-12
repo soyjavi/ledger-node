@@ -1,6 +1,6 @@
-import https from "https";
-
 import dotenv from "dotenv";
+import https from "https";
+import fetch from "node-fetch";
 
 import { C } from "../common";
 

@@ -47,13 +47,11 @@ export const syncState = ({ props, session }, res) => {
 // -----------------------------------------------------------------------------
 export const sync = ({ props: { key, block, blocks }, session }, res) => {
   const storage = new Storage({ ...STORAGE, ...session });
-  let inserts;
+  let response;
 
   storage.get(key);
-  if (block) inserts = storage.push(block);
-  else if (blocks) inserts = blocks.map((block) => storage.push(block));
+  if (block) response = storage.push(block);
+  else if (blocks) response = blocks.map((block) => storage.push(block));
 
-  res.json({
-    inserts,
-  });
+  res.json(response);
 };

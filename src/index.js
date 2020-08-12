@@ -48,7 +48,7 @@ app.use(request);
 app.get("/status", props, status);
 app.get("/backup", props, backup);
 // map
-app.get("/map/place", cache, props, mapPlace);
+app.get("/place", cache, props, mapPlace);
 app.get("/map", props, map);
 // rates
 app.get("/rates", props, rates);
