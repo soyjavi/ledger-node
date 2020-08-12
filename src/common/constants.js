@@ -12,10 +12,8 @@ export default {
     secret: SECRET,
   },
 
-  BLOCKCHAIN_NODE: {
+  STORAGE: {
     defaults: { txs: [], vaults: [] },
-    difficulty: parseInt(DIFFICULTY, 10),
-    key: "vaults",
   },
 
   CURRENCY: "EUR",

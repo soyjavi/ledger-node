@@ -1,10 +1,11 @@
 import onFinished from "on-finished";
 import { Blockchain } from "vanilla-blockchain";
+import { Storage } from "vanilla-storage";
 
 import MAP from "../../map.json";
 import { C, ERROR } from "../common";
 
-const { BLOCKCHAIN, BLOCKCHAIN_NODE, KEY_VAULTS } = C;
+const { BLOCKCHAIN, STORAGE } = C;
 
 export default (req, res, next) => {
   const { originalUrl } = req;
@@ -28,7 +29,7 @@ export default (req, res, next) => {
 
     const session = { filename: authorization, secret };
     try {
-      new Blockchain({ ...BLOCKCHAIN_NODE, ...session });
+      new Storage({ ...STORAGE, ...session });
     } catch (error) {
       return ERROR.MESSAGE(res, error);
     }
