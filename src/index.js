@@ -23,7 +23,7 @@ import {
   signup,
   sync,
   state,
-  fork,
+  blockchain,
 } from "./services";
 
 dotenv.config();
@@ -34,9 +34,9 @@ const app = express();
 const server = http.createServer(app);
 
 // -- Configuration
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cors({}));
 app.use(compression());
 
 // -- Connections
@@ -57,7 +57,7 @@ app.get("/rates", props, rates);
 app.post("/signup", props, signup);
 app.get("/state", props, state);
 app.post("/sync", props, sync);
-app.post("/fork", props, fork);
+app.post("/blockchain", props, blockchain);
 
 app.use(response);
 
