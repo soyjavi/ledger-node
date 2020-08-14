@@ -1,7 +1,7 @@
 import { Blockchain } from "vanilla-blockchain";
 import { Storage } from "vanilla-storage";
 
-import { C } from "../common";
+import { C, ERROR } from "../common";
 
 const { BLOCKCHAIN, STORAGE, KEY_VAULTS, KEY_TRANSACTIONS } = C;
 
@@ -24,7 +24,7 @@ export const signup = ({ props }, res) => {
 // -----------------------------------------------------------------------------
 // STATE
 // -----------------------------------------------------------------------------
-export const state = ({ props, session }, res) => {
+export const state = ({ session }, res) => {
   const storage = new Storage({ ...STORAGE, ...session });
 
   const blocks = (key) => storage.get(key).value.length;
@@ -46,10 +46,14 @@ export const state = ({ props, session }, res) => {
 // -----------------------------------------------------------------------------
 // SYNC
 // -----------------------------------------------------------------------------
-export const sync = ({ props: { key, block, blocks }, session }, res) => {
+export const sync = (
+  { props: { key, block, blocks = [], wipe }, session },
+  res
+) => {
   const storage = new Storage({ ...STORAGE, ...session });
-  let response;
+  if (wipe) storage.wipe();
 
+  let response;
   storage.get(key);
   if (block) response = storage.push(block);
   else if (blocks) response = blocks.map((block) => storage.push(block));
@@ -60,13 +64,16 @@ export const sync = ({ props: { key, block, blocks }, session }, res) => {
 // -----------------------------------------------------------------------------
 // FORK
 // -----------------------------------------------------------------------------
-export const fork = ({ props: { blockchain } }, res) => {
+export const blockchain = ({ props: { blockchain } }, res) => {
   const [secret, filename] = blockchain.split("|");
 
-  const storage = new Storage({ ...STORAGE, filename, secret });
-
-  res.json({
-    vaults: storage.get("vaults").value,
-    txs: storage.get("txs").value,
-  });
+  try {
+    const storage = new Storage({ ...STORAGE, filename, secret });
+    res.json({
+      txs: storage.get("txs").value,
+      vaults: storage.get("vaults").value,
+    });
+  } catch (error) {
+    return ERROR.MESSAGE(res, error);
+  }
 };
