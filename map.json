@@ -10,8 +10,8 @@
     "optional": ["center", "color", "precission", "resolution", "style"]
   },
   "place": {
-    "cache": 120,
-    "required": ["latitude", "longitude"]
+    "required": ["latitude", "longitude"],
+    "cache": 120
   },
   "state": {
     "secure": true
@@ -19,6 +19,10 @@
   "sync": {
     "required": ["key"],
     "optional": ["block", "blocks"],
+    "secure": true
+  },
+  "fork": {
+    "required": ["blockchain"],
     "secure": true
   },
   "backup": {

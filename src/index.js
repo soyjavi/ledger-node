@@ -22,7 +22,8 @@ import {
   // sync
   signup,
   sync,
-  syncState,
+  state,
+  fork,
 } from "./services";
 
 dotenv.config();
@@ -54,8 +55,9 @@ app.get("/map", props, map);
 app.get("/rates", props, rates);
 // sync
 app.post("/signup", props, signup);
-app.get("/state", props, syncState);
+app.get("/state", props, state);
 app.post("/sync", props, sync);
+app.post("/fork", props, fork);
 
 app.use(response);
 

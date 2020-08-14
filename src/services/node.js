@@ -24,7 +24,7 @@ export const signup = ({ props }, res) => {
 // -----------------------------------------------------------------------------
 // STATE
 // -----------------------------------------------------------------------------
-export const syncState = ({ props, session }, res) => {
+export const state = ({ props, session }, res) => {
   const storage = new Storage({ ...STORAGE, ...session });
 
   const blocks = (key) => storage.get(key).value.length;
@@ -55,4 +55,18 @@ export const sync = ({ props: { key, block, blocks }, session }, res) => {
   else if (blocks) response = blocks.map((block) => storage.push(block));
 
   res.json(response);
+};
+
+// -----------------------------------------------------------------------------
+// FORK
+// -----------------------------------------------------------------------------
+export const fork = ({ props: { blockchain } }, res) => {
+  const [secret, filename] = blockchain.split("|");
+
+  const storage = new Storage({ ...STORAGE, filename, secret });
+
+  res.json({
+    vaults: storage.get("vaults").value,
+    txs: storage.get("txs").value,
+  });
 };
