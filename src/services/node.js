@@ -47,16 +47,25 @@ export const state = ({ session }, res) => {
 // SYNC
 // -----------------------------------------------------------------------------
 export const sync = (
-  { props: { key, block, blocks = [], wipe }, session },
+  { props: { blockchain, block, blocks = [], key }, session },
   res
 ) => {
   const storage = new Storage({ ...STORAGE, ...session });
-  if (wipe) storage.wipe();
-
   let response;
-  storage.get(key);
-  if (block) response = storage.push(block);
-  else if (blocks) response = blocks.map((block) => storage.push(block));
+
+  if (blockchain) {
+    const { vaults, txs } = blockchain;
+
+    storage.wipe();
+    storage.get("vaults").save(vaults);
+    storage.get("txs").save(txs);
+
+    response = blockchain;
+  } else if (key) {
+    storage.get(key);
+    if (block) response = storage.push(block);
+    else if (blocks) response = blocks.map((block) => storage.push(block));
+  }
 
   res.json(response);
 };
