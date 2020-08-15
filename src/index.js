@@ -1,28 +1,30 @@
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import cors from 'cors';
-import express from 'express';
-import http from 'http';
-import dotenv from 'dotenv';
-import prettyError from 'pretty-error';
-import { cacheCryptos, cacheCurrencies, cacheMetals } from './common';
+import http from "http";
 
+import bodyParser from "body-parser";
+import compression from "compression";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import prettyError from "pretty-error";
+
+import PKG from "../package.json";
+import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
+import { cache, error, props, request, response } from "./middlewares";
 import {
-  cache, error, props, request, response,
-} from './middlewares';
-import {
-  signup,
-  profile,
-  vault,
-  transaction,
-  transactions,
-  fork,
-  heatmap,
-  mapPlace,
+  // admin
   backup,
   status,
-} from './services';
-import PKG from '../package.json';
+  // map
+  map,
+  mapPlace,
+  // rates
+  rates,
+  // sync
+  signup,
+  sync,
+  state,
+  blockchain,
+} from "./services";
 
 dotenv.config();
 prettyError.start();
@@ -32,9 +34,9 @@ const app = express();
 const server = http.createServer(app);
 
 // -- Configuration
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cors({}));
 app.use(compression());
 
 // -- Connections
@@ -42,17 +44,21 @@ global.connections = {};
 
 // -- Middlewares
 app.use(request);
-app.get('/status', props, status);
-app.post('/signup', props, signup);
-app.get('/profile', props, profile);
-app.post('/transaction', props, transaction);
-app.get('/transactions', props, transactions);
-app.post('/vault', props, vault);
-app.get('/place', cache, props, mapPlace);
-app.get('/heatmap', props, heatmap);
-// --- Admin tools
-app.post('/fork', props, fork);
-app.get('/backup', props, backup);
+
+// admin
+app.get("/status", props, status);
+app.get("/backup", props, backup);
+// map
+app.get("/place", cache, props, mapPlace);
+app.get("/map", props, map);
+// rates
+app.get("/rates", props, rates);
+// sync
+app.post("/signup", props, signup);
+app.get("/state", props, state);
+app.post("/sync", props, sync);
+app.post("/blockchain", props, blockchain);
+
 app.use(response);
 
 // -- Global Error Handler
@@ -60,12 +66,14 @@ app.use(error);
 
 // -- Listen
 const listener = server.listen(PORT, async () => {
-  console.log(`☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`);
+  console.log(
+    `☁️  API v${PKG.version} ${INSTANCE}:${listener.address().port}...`
+  );
 
   // -- Build cache
-  await cacheCurrencies();
-  await cacheCryptos();
-  await cacheMetals();
+  // await cacheCurrencies();
+  // await cacheCryptos();
+  // await cacheMetals();
 });
 
-process.on('uncaughtException', () => server.close());
+process.on("uncaughtException", () => server.close());

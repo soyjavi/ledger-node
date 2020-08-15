@@ -1,40 +1,41 @@
 {
-  "name": "voltvault",
+  "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "dependencies": {
-    "archiver": "3.1.1",
+    "archiver": "4.0.1",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "cors": "2.8.5",
-    "dotenv": "8.1.0",
+    "dotenv": "8.2.0",
     "express": "4.17.1",
     "node-fetch": "2.6.0",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
-    "vanillachain-core": "0.1.15"
+    "vanilla-blockchain": "0.2.7",
+    "vanilla-storage": "0.3.7"
   },
   "devDependencies": {
-    "@babel/cli": "7.5.5",
-    "@babel/core": "7.5.5",
-    "@babel/node": "7.5.5",
-    "@babel/plugin-proposal-throw-expressions": "7.2.0",
-    "@babel/preset-env": "7.5.5",
-    "eslint": "6.3.0",
-    "eslint-config-airbnb": "latest",
-    "eslint-plugin-import": "2.18.2",
-    "jest": "23.6.0",
-    "nodemon": "1.19.1"
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.10.3",
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.1.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
   },
   "main": "index.js",
-  "engines": {
-    "node": "10"
-  },
   "scripts": {
-    "lint": "eslint src/**",
-    "test": "jest --detectOpenHandles",
+    "lint": "eslint src --fix",
+    "test": "yarn build && jest src --runInBand --collectCoverage",
     "build": "babel -d ./dist ./src -s",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
-    "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js"
+    "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js --trace-warnings"
   }
 }

@@ -1,14 +1,22 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 const { DIFFICULTY, INSTANCE, SECRET } = process.env;
 
 export default {
   BLOCKCHAIN: {
-    difficulty: parseInt(DIFFICULTY, 10), secret: SECRET, file: INSTANCE, key: 'sessions',
+    defaults: { sessions: [] },
+    difficulty: parseInt(DIFFICULTY, 10),
+    filename: INSTANCE,
+    key: "sessions",
+    secret: SECRET,
   },
 
-  CURRENCY: 'EUR',
+  STORAGE: {
+    defaults: { txs: [], vaults: [] },
+  },
+
+  CURRENCY: "EUR",
   // CURRENCIES: [
   //   'USD', 'JPY', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'BGN', 'BRL',
   //   'CZK', 'DKK', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'KRW', 'MXN',
@@ -16,42 +24,49 @@ export default {
   //   'TRY', 'ZAR',
   // ],
   CURRENCIES: [
-    'AUD', 'CNY', 'GBP', 'HKD', 'JPY', 'KRW', 'MXN', 'MYR', 'RUB', 'SGD', 'THB', 'USD',
+    "USD",
+    "GBP",
+    "CNY",
+    "JPY",
+    "RUB",
+    "AUD",
+    "HKD",
+    "KRW",
+    "SGD",
+    "MXN",
+    "THB",
+    "MYR",
   ],
-  METALS: [
-    'XAU', 'XAG',
-  ],
+  METALS: ["XAU", "XAG"],
 
-  CRYPTOS: [
-    'BTC',
-  ],
+  CRYPTOS: ["BTC"],
 
   ENV: {
     DEVELOPMENT: true,
     PRODUCTION: false,
   },
 
-  KEY_TRANSACTIONS: 'txs',
-  KEY_VAULTS: 'vaults',
+  KEY_TRANSACTIONS: "txs",
+  KEY_VAULTS: "vaults",
 
   MAPBOX: {
-    HOST: 'api.mapbox.com',
-    PATH: 'styles/v1/mapbox/light-v9/static',
-    PATH_DARK: 'styles/v1/mapbox/dark-v9/static',
-    PROPS: 'attribution=false&logo=false',
+    HOST: "api.mapbox.com",
+    PATH: "styles/v1/mapbox/light-v9/static",
+    PATH_DARK: "styles/v1/mapbox/dark-v9/static",
+    PROPS: "attribution=false&logo=false",
   },
 
   SERVICES: {
-    FIAT: 'https://api.exchangeratesapi.io',
-    CRYPTO: 'https://min-api.cryptocompare.com',
-    METAL: 'http://apilayer.net/api',
+    FIAT: "https://api.exchangeratesapi.io",
+    CRYPTO: "https://min-api.cryptocompare.com",
+    METAL: "http://apilayer.net/api",
   },
 
   TX: {
     TYPE: {
-      EXPENSE: 'expense',
-      INCOME: 'income',
-      TRANSFER: 'transfer',
+      EXPENSE: "expense",
+      INCOME: "income",
+      TRANSFER: "transfer",
     },
   },
 };

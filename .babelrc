@@ -1,12 +1,7 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env", {
-        "targets": { node: "10" }
-      }
-    ]
-  ],
+  "presets": ["@babel/preset-env"],
   "plugins": [
-    ["@babel/plugin-proposal-throw-expressions"]
+    "@babel/plugin-proposal-throw-expressions",
+    "@babel/plugin-transform-runtime"
   ]
 }
