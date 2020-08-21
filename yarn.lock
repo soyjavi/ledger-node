@@ -6954,6 +6954,13 @@ vanilla-storage@0.3.7:
   dependencies:
     crypto-js "4.0.0"
 
+vanilla-storage@0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/vanilla-storage/-/vanilla-storage-0.3.9.tgz#a34a0241c73ccc4d794c05f0f35bad8600b81756"
+  integrity sha512-/3GH42Lh8YAu9YW1j1XQR+WT4uw4aQWyv3sc1kQIXA8mUy23dmsvmLAEwPv+SSW4IMM4ECRMbU3Zr7jCFoQZ5w==
+  dependencies:
+    crypto-js "4.0.0"
+
 vary@^1, vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
