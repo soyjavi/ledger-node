@@ -4,7 +4,7 @@ import path from "path";
 import { Blockchain } from "vanilla-blockchain";
 import { Storage } from "vanilla-storage";
 
-import { C, ERROR } from "../common";
+import { C, cache, ERROR } from "../common";
 
 const { BLOCKCHAIN, STORAGE, KEY_VAULTS, KEY_TRANSACTIONS } = C;
 
@@ -33,17 +33,25 @@ export const signup = ({ props }, res) => {
 // STATE
 // -----------------------------------------------------------------------------
 export const state = ({ session }, res) => {
-  const storage = new Storage({ ...STORAGE, ...session });
+  const cacheKey = `state:${session.filename}`;
+  let response = cache.get(cacheKey);
 
-  const blocks = (key) => storage.get(key).value.length;
+  if (!response) {
+    const storage = new Storage({ ...STORAGE, ...session });
+    const blocks = (key) => storage.get(key).value.length;
 
-  res.json({
-    blocks: { txs: blocks(KEY_TRANSACTIONS), vaults: blocks(KEY_VAULTS) },
-    latestHash: {
-      txs: latestHash(storage, KEY_TRANSACTIONS),
-      vaults: latestHash(storage, KEY_VAULTS),
-    },
-  });
+    response = {
+      blocks: { txs: blocks(KEY_TRANSACTIONS), vaults: blocks(KEY_VAULTS) },
+      latestHash: {
+        txs: latestHash(storage, KEY_TRANSACTIONS),
+        vaults: latestHash(storage, KEY_VAULTS),
+      },
+    };
+  }
+
+  cache.set(cacheKey, response, 900);
+
+  res.json(response);
 };
 
 // -----------------------------------------------------------------------------
@@ -53,7 +61,7 @@ export const sync = (
   { props: { blockchain, block, blocks = [], key }, session },
   res
 ) => {
-  let response;
+  cache.set(`state:${session.filename}`, undefined);
 
   if (blockchain) {
     const filePath = path.resolve(".", `store/${session.filename}.json`);
