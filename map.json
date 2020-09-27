@@ -3,7 +3,8 @@
     "required": ["fingerprint"]
   },
   "rates": {
-    "required": ["baseCurrency"]
+    "required": ["baseCurrency"],
+    "optional": ["latest"]
   },
   "map": {
     "required": ["points"],
