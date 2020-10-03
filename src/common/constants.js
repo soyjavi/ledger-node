@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const { DIFFICULTY, INSTANCE, SECRET } = process.env;
 
-export default {
+export const C = {
   BLOCKCHAIN: {
     defaults: { sessions: [] },
     difficulty: parseInt(DIFFICULTY, 10),
@@ -12,34 +12,29 @@ export default {
     secret: SECRET,
   },
 
-  STORAGE: {
-    defaults: { txs: [], vaults: [] },
-  },
+  CURRENCIES: [
+    "AUD",
+    "CNY",
+    "GBP",
+    "EUR",
+    "HKD",
+    "JPY",
+    "KRW",
+    "MXN",
+    "MYR",
+    "RUB",
+    "SGD",
+    "THB",
+    "USD",
+    "VND",
+    // Metals
+    "XAU",
+    "XAG",
+    // Crypto
+    "BTC",
+  ],
 
   CURRENCY: "EUR",
-  // CURRENCIES: [
-  //   'USD', 'JPY', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'BGN', 'BRL',
-  //   'CZK', 'DKK', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'KRW', 'MXN',
-  //   'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'RUB', 'SEK', 'SGD', 'THB',
-  //   'TRY', 'ZAR',
-  // ],
-  CURRENCIES: [
-    "USD",
-    "GBP",
-    "CNY",
-    "JPY",
-    "RUB",
-    "AUD",
-    "HKD",
-    "KRW",
-    "SGD",
-    "MXN",
-    "THB",
-    "MYR",
-  ],
-  METALS: ["XAU", "XAG"],
-
-  CRYPTOS: ["BTC"],
 
   ENV: {
     DEVELOPMENT: true,
@@ -57,9 +52,11 @@ export default {
   },
 
   SERVICES: {
-    FIAT: "https://api.exchangeratesapi.io",
-    CRYPTO: "https://min-api.cryptocompare.com",
-    METAL: "http://apilayer.net/api",
+    CURRENCIES: "http://data.fixer.io/api",
+  },
+
+  STORAGE: {
+    defaults: { txs: [], vaults: [] },
   },
 
   TX: {

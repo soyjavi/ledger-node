@@ -1,4 +1,4 @@
-export default {
+export const ERRORS = {
   FORBIDDEN: (res) => res.status(403).json({ message: "Forbidden." }),
 
   MESSAGE: (res, error = {}) =>

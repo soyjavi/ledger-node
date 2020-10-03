@@ -1,6 +1,5 @@
 class Cache {
   constructor() {
-    // @TODO: We should hydrate store/interval with a local file
     this.store = {};
     this.interval = {};
 
@@ -28,10 +27,10 @@ class Cache {
 
   get status() {
     return {
-      keys: this.interval,
       bytes: JSON.stringify(this.store).length * 2,
+      keys: this.interval,
     };
   }
 }
 
-export default new Cache();
+export const cache = new Cache();
