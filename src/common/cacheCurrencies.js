@@ -1,61 +1,56 @@
+import dotenv from "dotenv";
 import fetch from "node-fetch";
 
-import C from "./constants";
-import { readFile, writeFile } from "./modules";
+import { C } from "./constants";
+import { File } from "./file";
 
+dotenv.config();
+const { FIXER_IO_KEY } = process.env;
 const { CURRENCIES, SERVICES } = C;
 const FILE_NAME = "currencies.json";
 
-const getRates = async (url) => {
-  const response = await fetch(`${SERVICES.FIAT}/${url}`);
+const getRates = async (service = "latest") => {
+  console.log(`⚙️  Fetching ${service} CURRENCIES ...`);
 
+  const url = `${
+    SERVICES.CURRENCIES
+  }/${service}?access_key=${FIXER_IO_KEY}&symbols=${CURRENCIES.join(",")}`;
+
+  const response = await fetch(url).catch(() => {});
   if (response) {
     const { rates = {} } = await response.json();
     return rates;
-  }
-
-  return {};
+  } else return undefined;
 };
 
-export default async (onlyLatest = false) => {
+export const cacheCurrencies = async () => {
   const today = new Date();
-  const symbols = `symbols=${CURRENCIES.join(",")}`;
-  let history = readFile(FILE_NAME);
+  const historical = File.read(FILE_NAME);
 
-  // -- Restore history of rates if it's empty
-  const lastMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() - 1,
-    15,
-    0,
-    0
-  )
-    .toISOString()
-    .substr(0, 7);
-  if (!onlyLatest && !history[lastMonth]) {
-    console.log("⚙️  Fetching CURRENCIES history data...");
+  if (Object.keys(historical).length === 0) {
+    const baseHistorical = new Date(2018, 10, 1);
+    const baseYear = baseHistorical.getFullYear();
+    const baseMonth = baseHistorical.getMonth();
 
-    const rates = await getRates(
-      `history?start_at=2018-11-01&end_at=${lastMonth}-15&${symbols}`
-    );
-    Object.keys(rates)
-      .sort()
-      .forEach((key) => {
-        if (!history[key.substr(0, 7)]) history[key.substr(0, 7)] = rates[key];
-      });
+    const months =
+      today.getMonth() - baseMonth + 12 * (today.getFullYear() - baseYear);
+
+    for (let month in Array.from(Array(months + 1).keys())) {
+      const date = new Date(baseYear, baseMonth + parseInt(month), 0, 12, 0)
+        .toISOString()
+        .substr(0, 10);
+
+      historical[date.substr(0, 7)] = await getRates(date);
+    }
   }
 
-  // -- Get latest rate for this month
-  console.log("⚙️  Fetching latest CURRENCIES rates...");
-  history = {
-    ...history,
-    [today.toISOString().substr(0, 7)]: await getRates(`latest?${symbols}`),
-  };
+  historical[today.toISOString().substr(0, 7)] = await getRates();
 
-  writeFile(FILE_NAME, history);
+  File.write(FILE_NAME, historical);
+
   console.log(
-    `✅ Rebuilt CURRENCIES cache (${Object.keys(history).length} months) ...`
+    `✅ Rebuilt CURRENCIES cache (${Object.keys(historical).length} months) ...`
   );
 
-  return history;
+  return historical;
 };

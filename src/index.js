@@ -8,7 +8,7 @@ import express from "express";
 import prettyError from "pretty-error";
 
 import PKG from "../package.json";
-import { cacheCryptos, cacheCurrencies, cacheMetals } from "./common";
+import { cacheCurrencies } from "./common";
 import { cache, error, props, request, response } from "./middlewares";
 import {
   // admin
@@ -71,9 +71,8 @@ const listener = server.listen(PORT, async () => {
   );
 
   // -- Build cache
-  // await cacheCurrencies();
-  // await cacheCryptos();
-  // await cacheMetals();
+  await cacheCurrencies();
+  setInterval(cacheCurrencies, 3600 * 1000);
 });
 
 process.on("uncaughtException", () => server.close());
