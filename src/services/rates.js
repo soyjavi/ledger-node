@@ -46,7 +46,7 @@ export const rates = async ({ props: { baseCurrency, latest } }, res, next) => {
         rates[key] = { ...base[key] };
       });
 
-    cache.set(cacheKey, rates, 3600);
+    cache.set(cacheKey, rates, 900);
   }
 
   res.dataSource = rates;
