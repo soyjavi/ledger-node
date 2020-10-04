@@ -1,4 +1,4 @@
-export const ERRORS = {
+export const ERROR = {
   FORBIDDEN: (res) => res.status(403).json({ message: "Forbidden." }),
 
   MESSAGE: (res, error = {}) =>
