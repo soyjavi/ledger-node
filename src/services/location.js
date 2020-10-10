@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
 import https from "https";
+
+import dotenv from "dotenv";
 import fetch from "node-fetch";
 
 import { C } from "../common";
@@ -11,13 +12,13 @@ const HEATMAP_OPACITY = [0.2, 0.4, 0.6, 0.8];
 const DARK = "dark";
 
 const MAPBOX_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
-const PARAMETERS = "language=en&limit=1&types=place";
 
 export const mapPlace = async (
   { props: { latitude, longitude } },
   res,
   next
 ) => {
+  const PARAMETERS = "language=en&limit=10&types=place";
   const url = `${MAPBOX_URL}/${longitude},${latitude}.json?${PARAMETERS}&access_token=${MAPBOX_ACCESS_TOKEN}`;
   const response = await fetch(url);
   let place;
@@ -28,6 +29,41 @@ export const mapPlace = async (
   }
 
   res.dataSource = { place };
+
+  next();
+};
+
+export const places = async ({ props: { latitude, longitude } }, res, next) => {
+  const PARAMETERS = "language=en&limit=10&types=poi";
+  const url = `${MAPBOX_URL}/${longitude},${latitude}.json?${PARAMETERS}&access_token=${MAPBOX_ACCESS_TOKEN}`;
+  const response = await fetch(url);
+  let POIs;
+
+  if (response) {
+    const { features = [] } = (await response.json()) || {};
+
+    POIs = features.map(
+      ({ id, properties: { address }, text_en: text, context = [] }) => {
+        const info = {};
+        context.forEach(({ id, text_en: value }) => {
+          const [key] = id.split(".");
+          if (["postcode", "place", "region", "country"].includes(key))
+            info[key] = value;
+        });
+        const { place: city, ...location } = info;
+
+        return {
+          address,
+          id,
+          text,
+          ...location,
+          city,
+        };
+      }
+    );
+  }
+
+  res.dataSource = { POIs };
 
   next();
 };
