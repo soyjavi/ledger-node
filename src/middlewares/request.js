@@ -12,7 +12,9 @@ export default (req, res, next) => {
   const today = new Date();
   const timestamp = today.getTime();
 
-  const route = MAP[originalUrl.split("/")[1].split("?")[0]];
+  const [, ...parts] = originalUrl.split("?")[0].split("/");
+  const route = MAP[parts.join("/")];
+
   if (!route) return ERROR.UNKNOWN_SERVICE(res);
 
   req.routeMap = route;
