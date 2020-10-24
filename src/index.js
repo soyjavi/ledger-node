@@ -9,14 +9,12 @@ import prettyError from "pretty-error";
 
 import PKG from "../package.json";
 import { cacheCurrencies } from "./common";
-import { cache, error, props, request, response } from "./middlewares";
+import { error, props, request, response } from "./middlewares";
 import {
   // admin
   backup,
   status,
   // map
-  map,
-  mapPlace,
   // rates
   rates,
   // sync
@@ -48,9 +46,6 @@ app.use(request);
 // admin
 app.get("/status", props, status);
 app.get("/backup", props, backup);
-// map
-app.get("/place", cache, props, mapPlace);
-app.get("/map", props, map);
 // rates
 app.get("/rates", props, rates);
 // sync
@@ -58,6 +53,13 @@ app.post("/signup", props, signup);
 app.get("/state", props, state);
 app.post("/sync", props, sync);
 app.post("/blockchain", props, blockchain);
+
+// demo
+app.get("/service/subservice", props, (req, res) =>
+  res.json({ props, subservice: true })
+);
+
+app.get("/service", props, (req, res) => res.json({ props, service: true }));
 
 app.use(response);
 
