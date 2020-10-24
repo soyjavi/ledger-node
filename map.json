@@ -6,13 +6,14 @@
     "required": ["baseCurrency"],
     "optional": ["latest"]
   },
-  "map": {
-    "required": ["points"],
-    "optional": ["center", "color", "precission", "resolution", "style"]
+  "rates/latest": {
+    "required": ["baseCurrency"]
   },
-  "place": {
-    "required": ["latitude", "longitude"],
-    "cache": 120
+  "service": {
+    "required": ["name"]
+  },
+  "service/subservice": {
+    "required": ["subname"]
   },
   "state": {
     "secure": true
