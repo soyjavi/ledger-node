@@ -1,7 +1,7 @@
 {
   "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "dependencies": {
     "archiver": "4.0.1",
     "body-parser": "1.19.0",
@@ -16,22 +16,23 @@
     "vanilla-storage": "0.3.11"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.3",
-    "@babel/core": "^7.10.3",
-    "@babel/node": "^7.10.1",
-    "@babel/plugin-proposal-throw-expressions": "^7.10.1",
-    "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/plugin-proposal-throw-expressions": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "fsevents": "2.2.x",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
   },
   "engines": {
-    "node": ">=14.4.0 <14.5.2"
+    "node": "12.x"
   },
   "main": "index.js",
   "scripts": {
@@ -40,8 +41,5 @@
     "build": "babel -d ./dist ./src -s",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
     "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js --trace-warnings"
-  },
-  "optionalDependencies": {
-    "fsevents": "^2.2.1"
   }
 }
