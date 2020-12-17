@@ -1,7 +1,7 @@
 {
   "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "dependencies": {
     "archiver": "4.0.1",
     "body-parser": "1.19.0",
@@ -9,7 +9,7 @@
     "cors": "2.8.5",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "node-fetch": "2.6.0",
+    "node-fetch": "^2.6.1",
     "on-finished": "2.3.0",
     "pretty-error": "2.1.1",
     "vanilla-blockchain": "0.2.8",
@@ -40,5 +40,8 @@
     "build": "babel -d ./dist ./src -s",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
     "start:dev": "nodemon --exec NODE_ENV=development babel-node src/index.js --trace-warnings"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.2.1"
   }
 }
