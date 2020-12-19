@@ -28,10 +28,10 @@ export const status = (req, res, next) => {
   } = new Blockchain(BLOCKCHAIN);
 
   res.dataSource = {
-    instance: INSTANCE,
-    version: PKG.version,
     cache: cache.status.bytes,
+    instance: INSTANCE,
     sessions: blocks.length,
+    version: PKG.version,
   };
 
   next();
