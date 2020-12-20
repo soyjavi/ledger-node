@@ -6,15 +6,6 @@
     "required": ["baseCurrency"],
     "optional": ["latest"]
   },
-  "rates/latest": {
-    "required": ["baseCurrency"]
-  },
-  "service": {
-    "required": ["name"]
-  },
-  "service/subservice": {
-    "required": ["subname"]
-  },
   "state": {
     "secure": true
   },

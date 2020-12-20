@@ -54,13 +54,6 @@ app.get("/state", props, state);
 app.post("/sync", props, sync);
 app.post("/blockchain", props, blockchain);
 
-// demo
-app.get("/service/subservice", props, (req, res) =>
-  res.json({ props, subservice: true })
-);
-
-app.get("/service", props, (req, res) => res.json({ props, service: true }));
-
 app.use(response);
 
 // -- Global Error Handler
