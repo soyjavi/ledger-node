@@ -12,6 +12,8 @@ export const C = {
     secret: SECRET,
   },
 
+  CRYPTOS: ["BTC", "ETH"],
+
   CURRENCIES: [
     "AUD",
     "CNY",
@@ -32,6 +34,7 @@ export const C = {
     "XAG",
     // Crypto
     "BTC",
+    "ETH",
   ],
 
   CURRENCY: "EUR",
@@ -52,6 +55,7 @@ export const C = {
   },
 
   SERVICES: {
+    CRYPTOS: "http://api.coinlayer.com/api",
     CURRENCIES: "http://data.fixer.io/api",
   },
 

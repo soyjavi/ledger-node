@@ -5,22 +5,54 @@ import { C } from "./constants";
 import { File } from "./file";
 
 dotenv.config();
-const { FIXER_IO_KEY } = process.env;
-const { CURRENCIES, SERVICES } = C;
+const { COINLAYER_COM_KEY = "", FIXER_IO_KEY = "" } = process.env;
+const { CRYPTOS, CURRENCIES, CURRENCY, SERVICES } = C;
 const FILE_NAME = "currencies.json";
 
-const getRates = async (service = "latest") => {
-  console.log(`⚙️  Fetching ${service} CURRENCIES ...`);
-
-  const url = `${
-    SERVICES.CURRENCIES
-  }/${service}?access_key=${FIXER_IO_KEY}&symbols=${CURRENCIES.join(",")}`;
-
+const fetchJSON = async (url) => {
   const response = await fetch(url).catch(() => {});
-  if (response) {
-    const { rates = {} } = await response.json();
-    return rates;
-  } else return undefined;
+
+  return response ? await response.json() : {};
+};
+
+const getCurrenciesRates = async (service = "latest") => {
+  const symbols = CURRENCIES.join(",");
+  const url = `${SERVICES.CURRENCIES}/${service}?access_key=${FIXER_IO_KEY}&symbols=${symbols}`;
+
+  console.log(`⚙️  Fetching ${service} ${SERVICES.CURRENCIES} ...`);
+
+  const { rates } = await fetchJSON(url);
+
+  return rates;
+};
+
+const getCryptosRates = async (service = "live") => {
+  const values = {};
+  const symbols = CRYPTOS.join(",");
+  const keys = COINLAYER_COM_KEY.split(",");
+  const key = keys[Math.floor(Math.random() * keys.length)];
+
+  const url = `${SERVICES.CRYPTOS}/${service}?access_key=${key}&target=${CURRENCY}&symbols=${symbols}`;
+
+  console.log(
+    `⚙️  Fetching ${service} ${SERVICES.CRYPTOS} [${keys.indexOf(key)}] ...`
+  );
+
+  const { rates = {} } = await fetchJSON(url);
+  Object.keys(rates).forEach(
+    (key) => (values[key] = parseFloat((1 / rates[key]).toFixed(12)))
+  );
+
+  return values;
+};
+
+const getRates = async (service) => {
+  const currencies = await getCurrenciesRates(service);
+  const cryptos = await getCryptosRates(service);
+
+  return Object.keys(currencies).length && Object.keys(cryptos).length
+    ? { ...currencies, ...cryptos }
+    : undefined;
 };
 
 export const cacheCurrencies = async () => {

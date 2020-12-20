@@ -1,7 +1,7 @@
 {
   "name": "ledger-node",
   "description": "A new expanded and private finance experience running on the blockchain.",
-  "version": "0.11.5",
+  "version": "0.11.6",
   "dependencies": {
     "archiver": "5.1.0",
     "body-parser": "1.19.0",
