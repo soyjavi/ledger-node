@@ -5,7 +5,7 @@ import { cache, C, File } from "../common";
 dotenv.config();
 const { CURRENCY } = C;
 
-const round = (value) => parseFloat(value.toFixed(6), 10);
+const round = (value) => parseFloat(value.toFixed(12), 10);
 
 const FILE_NAME = "currencies.json";
 const METALS = ["XAU", "XAG"];
