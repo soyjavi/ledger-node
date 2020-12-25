@@ -8,11 +8,6 @@ import { C, cache, ERROR } from "../common";
 
 const { BLOCKCHAIN, STORAGE, KEY_VAULTS, KEY_TRANSACTIONS } = C;
 
-const latestHash = (storage, key) => {
-  const { value = [] } = storage.get(key);
-  return value.length > 0 ? value.slice(-1).pop().hash : undefined;
-};
-
 // -----------------------------------------------------------------------------
 // SIGNUP
 // -----------------------------------------------------------------------------
@@ -38,14 +33,18 @@ export const state = ({ session }, res) => {
 
   if (!response) {
     const storage = new Storage({ ...STORAGE, ...session });
-    const blocks = (key) => storage.get(key).value.length;
+    const info = (key) => {
+      const { value = [] } = storage.get(key);
+
+      return {
+        latestHash: value.length > 0 ? value[value.length - 1].hash : undefined,
+        length: value.length,
+      };
+    };
 
     response = {
-      blocks: { txs: blocks(KEY_TRANSACTIONS), vaults: blocks(KEY_VAULTS) },
-      latestHash: {
-        txs: latestHash(storage, KEY_TRANSACTIONS),
-        vaults: latestHash(storage, KEY_VAULTS),
-      },
+      txs: info(KEY_TRANSACTIONS),
+      vaults: info(KEY_VAULTS),
     };
   }
 
@@ -76,8 +75,9 @@ export const sync = (
     const storage = new Storage({ ...STORAGE, ...session });
     storage.get(key);
 
+    const { value = [] } = storage;
+    const hash = value.length > 0 ? value.slice(-1).pop().hash : undefined;
     const { previousHash } = block || blocks[0] || {};
-    const hash = latestHash(storage, key);
 
     if (hash !== previousHash) return ERROR.NOT_FOUND(res);
 
