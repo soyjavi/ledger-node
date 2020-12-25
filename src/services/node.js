@@ -48,7 +48,7 @@ export const state = ({ session }, res) => {
     };
   }
 
-  cache.set(cacheKey, response, 900);
+  cache.set(cacheKey, response, 3600);
 
   res.json(response);
 };
