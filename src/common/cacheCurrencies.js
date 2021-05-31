@@ -17,7 +17,10 @@ const fetchJSON = async (url) => {
 
 const getCurrenciesRates = async (service = "latest") => {
   const symbols = CURRENCIES.join(",");
-  const url = `${SERVICES.CURRENCIES}/${service}?access_key=${FIXER_IO_KEY}&symbols=${symbols}`;
+  const keys = FIXER_IO_KEY.split(",");
+  const key = keys[Math.floor(Math.random() * keys.length)];
+
+  const url = `${SERVICES.CURRENCIES}/${service}?access_key=${key}&symbols=${symbols}`;
 
   console.log(`⚙️  Fetching ${service} ${SERVICES.CURRENCIES} ...`);
 
