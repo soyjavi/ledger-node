@@ -21,20 +21,28 @@
     "@babel/plugin-proposal-throw-expressions": "7.12.1",
     "@babel/plugin-transform-runtime": "7.12.10",
     "@babel/preset-env": "7.12.11",
-    "eslint": "7.16.0",
-    "eslint-config-prettier": "7.1.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-prettier": "3.3.0",
+    "@soyjavi/eslint": "^0.1",
+    "@typescript-eslint/eslint-plugin": "3.5.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "7.3.1",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-react": "7.20.3",
+    "eslint-plugin-react-hooks": "4.0.5",
     "jest": "26.6.3",
     "nodemon": "2.0.6",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "typescript": "^4.0.0"
   },
   "main": "src/index.js",
-  "engines": {
+  "_engines": {
     "node": "10.x"
   },
   "scripts": {
-    "lint": "eslint src --fix",
+    "lint": "eslint --cache --fix --format codeframe --ext .jsx,.js,.tsx,.ts src",
     "test": "yarn build && jest src --runInBand --collectCoverage",
     "build": "babel -d ./dist ./src -s",
     "start": "NODE_ENV=production babel-node ./src/index.js",
